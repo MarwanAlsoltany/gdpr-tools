@@ -1,0 +1,42 @@
+dist: xenial
+
+os:
+    - linux
+
+language: php
+
+php:
+    - 7.4
+    - 8.0
+
+env:
+    global:
+        # Misc
+        - ECHO_MESSAGE="GDPR Tools Test Suite"
+        # Composer
+        - COMPOSER_FLAGS="--prefer-stable --prefer-dist"
+        # PHPUnit
+        - XDEBUG_MODE="coverage"
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+        - $HOME/.local
+
+before_script:
+    # Misc
+    - echo $ECHO_MESSAGE
+    # Composer
+    - composer self-update
+    - composer update $COMPOSER_FLAGS
+
+script:
+    - ls -l # for debugging
+    - vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_success:
+    - ls -l # for debugging
+    - bash <(curl -s https://codecov.io/bash)
+
+after_script:
+    - echo "$ECHO_MESSAGE Finished Successfly"
