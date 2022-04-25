@@ -367,7 +367,9 @@ final class Sanitizer
         // in case the buffer is not flushed
         // normally this should be done by the Response object
         while (ob_get_level()) {
+            ob_end_flush();
             ob_flush();
+            flush();
         }
     }
 
