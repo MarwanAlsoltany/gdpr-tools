@@ -35,7 +35,7 @@ Sanitize any PHP application HTML response to be GDPR compliant.
 
 <sup>If you like this project, giving it a :star: would be appreciated!</sup>
 
-Do you feel like reading? Check out the full API on the documentation website on [`marwanalsoltany.github.io/gdpr-tools`](https://marwanalsoltany.github.io/gdpr-tools).
+Do you feel like reading? Check out the full API on the documentation website on <br/>[`marwanalsoltany.github.io/gdpr-tools`](https://marwanalsoltany.github.io/gdpr-tools).
 
 </div>
 
