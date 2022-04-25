@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GDPR-Tools API Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <link rel="icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-okaidia.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
+                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/search.js"></script>
+        <script defer src="js/searchIndex.js"></script>
+    </head>
+<body id="top">
+    <header class="phpdocumentor-header phpdocumentor-section">
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">GDPR-Tools API Docs</a></h1>
+    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
+    <label class="phpdocumentor-header__menu-icon" for="menu-button">
+        <i class="fas fa-bars"></i>
+    </label>
+    <section data-search-form class="phpdocumentor-search">
+    <label>
+        <span class="visually-hidden">Search for</span>
+        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
+    </label>
+</section>
+
+    <nav class="phpdocumentor-topnav">
+    <ul class="phpdocumentor-topnav__menu">
+        </ul>
+</nav>
+</header>
+
+    <main class="phpdocumentor">
+        <div class="phpdocumentor-section">
+            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
+<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
+    Menu
+</label>
+<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/maks.html">MAKS</a></h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/maks-gdprtools.html">GDPRTools</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="packages/GDPRTools.html">GDPRTools</a></h4>
+
+                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="packages/MAKS.html">MAKS</a></h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="packages/MAKS-GDPRTools.html">GDPRTools</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+            
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
+                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
+    </section>
+
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
+    </section>
+</aside>
+
+            <div class="phpdocumentor-column -eight phpdocumentor-content">
+                    <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/maks.html">MAKS</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/maks-gdprtools.html">GDPRTools</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/maks-gdprtools-backend.html">Backend</a></li>
+    </ul>
+
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    Sanitizer
+
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/MAKS.html">MAKS</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/MAKS-GDPRTools.html">GDPRTools</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">89</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">A class that sanitizes HTML elements that automatically load external resources
+by setting their attributes that load the external resources to temporary URI/URL
+and saving the original attributes values in a temporary attribute to be used upon consent.</p>
+
+    <section class="phpdocumentor-description"><p>Elements that will be sanitized are:</p>
+<ul>
+<li>
+<code class="prettyprint">&lt;link href=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;script src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;iframe src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;embed src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;img src=&quot;&quot; srcset=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;audio src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;video src=&quot;&quot; poster=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;source src=&quot;&quot; srcset=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;track src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;object data=&quot;&quot; /&gt;</code>
+</li>
+</ul>
+<p>Example:</p>
+<pre class="prettyprint"><code class="prettyprint">// sanitizing the response before returning it to the client
+// e.g. in kernel response event listener
+
+$condition = function ($data) {
+     // only html responses or check additionally for some consent cookie
+     return strpos($data, '&lt;!DOCTYPE html&gt;') !== false;
+};
+
+$uris = [
+   'link'   =&gt; sprintf('data:text/css;charset=UTF-8;base64,%s', base64_encode('body::after{content:&quot;Consent Please&quot;;color:orangered}')),
+   'script' =&gt; sprintf('data:text/javascript;charset=UTF-8;base64,%s', base64_encode('console.log(&quot;Blocked!&quot;)')),
+   'iframe' =&gt; sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('&lt;div&gt;Consent Please!&lt;/div&gt;')),
+];
+
+$appends = [
+     'body' =&gt; [
+         '&lt;script defer src=&quot;/path/to/client-side-code.js&quot;&gt;&lt;/script&gt;',
+     ],
+];
+
+$sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())
+     -&gt;setData($html)
+     -&gt;setCondition($condition)
+     -&gt;setURIs($uris)
+     -&gt;sanitize()
+     -&gt;append($appends['body'][0], 'body')
+     -&gt;get();
+
+
+// sanitizing using the shorthand
+$sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())-&gt;sanitizeData($html, $condition, $uris, $appends);
+
+
+// sanitizing app entry
+// (1) rename index.php to app.php
+// (2) create index.php with following content
+// (3) the result will simply be returned to the client
+
+\MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $appends);
+</code></pre>
+</section>
+
+
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">since</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0.0</span>
+                                                                                
+                                             
+                                    </dd>
+                        </dl>
+
+
+
+
+
+
+<h3 id="toc">
+    Table of Contents
+    <a href="#toc" class="headerlink"><i class="fas fa-link"></i></a>
+</h3>
+
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_ELEMENTS">ELEMENTS</a>
+    <span>
+        &nbsp;= [
+    // element =&gt; attributes
+    &#039;link&#039; =&gt; [&#039;href&#039;],
+    &#039;script&#039; =&gt; [&#039;src&#039;],
+    &#039;iframe&#039; =&gt; [&#039;src&#039;],
+    &#039;embed&#039; =&gt; [&#039;src&#039;],
+    &#039;img&#039; =&gt; [&#039;src&#039;, &#039;srcset&#039;],
+    &#039;audio&#039; =&gt; [&#039;src&#039;],
+    &#039;video&#039; =&gt; [&#039;src&#039;, &#039;poster&#039;],
+    &#039;source&#039; =&gt; [&#039;src&#039;, &#039;srcset&#039;],
+    &#039;track&#039; =&gt; [&#039;src&#039;],
+    &#039;object&#039; =&gt; [&#039;data&#039;],
+]                    </span>
+</dt>
+<dd>HTML elements that load external resources.</dd>
+
+                <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_attributes">$attributes</a>
+    <span>
+                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+</dt>
+<dd>The overrides for the names of the attributes added after the sanitization.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition">$condition</a>
+    <span>
+                &nbsp;: callable            </span>
+</dt>
+<dd>The condition to check before sanitizing.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_data">$data</a>
+    <span>
+                &nbsp;: string            </span>
+</dt>
+<dd>The data to sanitize.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_result">$result</a>
+    <span>
+                &nbsp;: string            </span>
+</dt>
+<dd>The result after the sanitization.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_uris">$uris</a>
+    <span>
+                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+</dt>
+<dd>The temporary URIs/URLs to replace the original sources with.</dd>
+
+                <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method___construct">__construct()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_append">append()</a>
+    <span>
+                        &nbsp;: static    </span>
+</dt>
+<dd>Appends some data to the current data/result.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_get">get()</a>
+    <span>
+                        &nbsp;: string    </span>
+</dt>
+<dd>Returns the current result and resets class internal state.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitize">sanitize()</a>
+    <span>
+                        &nbsp;: static    </span>
+</dt>
+<dd>Sanitizes the current data.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeApp">sanitizeApp()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Sanitize the HTML resulting from including the passed path.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeData">sanitizeData()</a>
+    <span>
+                        &nbsp;: string    </span>
+</dt>
+<dd>Sanitize the given HTML code.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setCondition">setCondition()</a>
+    <span>
+                        &nbsp;: static    </span>
+</dt>
+<dd>Sets the condition to check that determines whether to sanitize the data or not.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setData">setData()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Sets the data to sanitize.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setURIs">setURIs()</a>
+    <span>
+                        &nbsp;: static    </span>
+</dt>
+<dd>Sets the temporary URIs/URLs to set for each sanitized element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getReplaceCallback">getReplaceCallback()</a>
+    <span>
+                        &nbsp;: callable    </span>
+</dt>
+<dd>Returns the callback to replace the elements to sanitize.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getSearchPattern">getSearchPattern()</a>
+    <span>
+                        &nbsp;: string    </span>
+</dt>
+<dd>Returns the search pattern to find the elements to sanitize.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getURIs">getURIs()</a>
+    <span>
+                        &nbsp;: array&lt;string, string&gt;    </span>
+</dt>
+<dd>Returns the Data-URIs to set to the sanitized elements.</dd>
+
+        </dl>
+
+
+
+        
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_ELEMENTS">
+        ELEMENTS
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_ELEMENTS" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">108</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">HTML elements that load external resources.</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+    <span class="phpdocumentor-signature__type">array&lt;string, array&lt;string|int, mixed&gt;&gt;</span>
+    <span class="phpdocumentor-signature__name">ELEMENTS</span>
+    = <span class="phpdocumentor-signature__default-value">[
+    // element =&gt; attributes
+    &#039;link&#039; =&gt; [&#039;href&#039;],
+    &#039;script&#039; =&gt; [&#039;src&#039;],
+    &#039;iframe&#039; =&gt; [&#039;src&#039;],
+    &#039;embed&#039; =&gt; [&#039;src&#039;],
+    &#039;img&#039; =&gt; [&#039;src&#039;, &#039;srcset&#039;],
+    &#039;audio&#039; =&gt; [&#039;src&#039;],
+    &#039;video&#039; =&gt; [&#039;src&#039;, &#039;poster&#039;],
+    &#039;source&#039; =&gt; [&#039;src&#039;, &#039;srcset&#039;],
+    &#039;track&#039; =&gt; [&#039;src&#039;],
+    &#039;object&#039; =&gt; [&#039;data&#039;],
+]</span>
+</code>
+
+
+        <section class="phpdocumentor-description"><p>Available elements are:</p>
+<ul>
+<li>
+<code class="prettyprint">&lt;link href=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;script src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;iframe src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;embed src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;img src=&quot;&quot; srcset=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;audio src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;video src=&quot;&quot; poster=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;source src=&quot;&quot; srcset=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;track src=&quot;&quot; /&gt;</code>
+</li>
+<li>
+<code class="prettyprint">&lt;object data=&quot;&quot; /&gt;</code>
+</li>
+</ul>
+</section>
+
+    
+    
+
+</article>
+            </section>
+
+        
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+            -static                                            "
+>
+    <h4 class="phpdocumentor-element__name" id="property_attributes">
+        $attributes
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_attributes" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">134</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The overrides for the names of the attributes added after the sanitization.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+    <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$attributes</span>
+     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+
+        <section class="phpdocumentor-description"><p>Available attributes are:</p>
+<ul>
+<li>
+<code class="prettyprint">data-consent-element</code>
+</li>
+<li>
+<code class="prettyprint">data-consent-attribute</code>
+</li>
+<li>
+<code class="prettyprint">data-consent-value</code>
+</li>
+<li>
+<code class="prettyprint">data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}</code> e.g. <code class="prettyprint">data-consent-original-src</code>
+</li>
+</ul>
+</section>
+
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_condition">
+        $condition
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">163</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The condition to check before sanitizing.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">callable</span>
+    <span class="phpdocumentor-signature__name">$condition</span>
+    </code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_data">
+        $data
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_data" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">149</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The data to sanitize.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$data</span>
+    </code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_result">
+        $result
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_result" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">142</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The result after the sanitization.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$result</span>
+    </code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_uris">
+        $uris
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_uris" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">156</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">The temporary URIs/URLs to replace the original sources with.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+    <span class="phpdocumentor-signature__name">$uris</span>
+    </code>
+
+    
+    
+    
+
+</article>
+            </section>
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">166</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_append">
+        append()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_append" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">230</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Appends some data to the current data/result.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">append</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;body&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+
+        <section class="phpdocumentor-description"><p>This method is useful to add some <code class="prettyprint">&lt;script&gt;</code> or <code class="prettyprint">&lt;link&gt;</code> to the <code class="prettyprint">&lt;head&gt;</code> and/or <code class="prettyprint">&lt;body&gt;</code> elements.</p>
+<p>NOTE: This method will append the data whether the data has changed (sanitized) or not.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The data to append.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$target</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;body&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The target to append to.
+It's advisable to only add to top-level elements (i.e. <code class="prettyprint">&lt;head&gt;</code>, <code class="prettyprint">&lt;body&gt;</code>).</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">static</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_get">
+        get()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_get" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">277</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the current result and resets class internal state.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">get</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sanitize">
+        sanitize()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitize" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">251</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sanitizes the current data.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">sanitize</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">static</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sanitizeApp">
+        sanitizeApp()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeApp" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">350</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sanitize the HTML resulting from including the passed path.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">sanitizeApp</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array|string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>NOTE: This method should be the last step in the application
+as it will flush all opened buffers to the client.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$path</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$condition</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The condition to check before sanitizing.
+The passed callback will be executed when calling <code class="prettyprint">self::sanitize()</code> to check if the data should be sanitized.
+The callback will be passed the data and must return a boolean (signature: <code class="prettyprint">fn (string $data): bool</code>).
+The callback should check for a Cookie or something in the data (HTML) to determine whether to sanitize the data or not.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$uris</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The temporary URIs/URLs to set for each sanitized element.
+An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$appends</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, array|string&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The data to append.
+An associative array where keys are the target to append to and values are a string or array of the data to append.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">codeCoverageIgnore</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>This method can be tested as it flushes all opened buffer.</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>The buffer will simply be flushed to the client.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_sanitizeData">
+        sanitizeData()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeData" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">302</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sanitize the given HTML code.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">sanitizeData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array|string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The HTML code to sanitize.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$condition</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The condition to check before sanitizing.
+The passed callback will be executed when calling <code class="prettyprint">self::sanitize()</code> to check if the data should be sanitized.
+The callback will be passed the data and must return a boolean (signature: <code class="prettyprint">fn (string $data): bool</code>).
+The callback should check for a Cookie or something in the data (HTML) to determine whether to sanitize the data or not.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$uris</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The temporary URIs/URLs to set for each sanitized element.
+An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$appends</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, array|string&gt;|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>[optional] The data to append.
+An associative array where keys are the target to append to and values are a string or array of the data to append.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>The sanitized HTML code.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setCondition">
+        setCondition()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setCondition" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">195</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sets the condition to check that determines whether to sanitize the data or not.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setCondition</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$condition</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The condition to check before sanitizing.
+The passed callback will be executed when calling <code class="prettyprint">self::sanitize()</code> to check if the data should be sanitized.
+The callback will be passed the data and must return a boolean (signature: <code class="prettyprint">fn (string $data): bool</code>).
+The callback should check for a Cookie or something in the data (HTML) to determine whether to sanitize the data or not.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">static</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setData">
+        setData()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setData" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">178</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sets the data to sanitize.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setURIs">
+        setURIs()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setURIs" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">211</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sets the temporary URIs/URLs to set for each sanitized element.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">setURIs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$uris</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>An associative array
+where keys are element names (see <code class="prettyprint">self::ELEMENTS</code> array keys)
+and values are the URIs (base64 encoded data) or normal URLs.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">static</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getReplaceCallback">
+        getReplaceCallback()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getReplaceCallback" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">415</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the callback to replace the elements to sanitize.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">getReplaceCallback</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">callable</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getSearchPattern">
+        getSearchPattern()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getSearchPattern" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">395</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the search pattern to find the elements to sanitize.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">getSearchPattern</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getURIs">
+        getURIs()
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getURIs" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Backend/Sanitizer.php"><a href="files/src-backend-sanitizer.html"><abbr title="src/Backend/Sanitizer.php">Sanitizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">379</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns the Data-URIs to set to the sanitized elements.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">getURIs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span>
+            &mdash;
+        
+    
+</article>
+            </section>
+
+        
+    <script type="text/javascript">
+        function loadExternalCodeSnippets(line) {
+            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                var src = pre.getAttribute('data-src').replace( /\\/g, '/');
+                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+                var language = 'php';
+
+                var code = document.createElement('code');
+                code.className = 'language-' + language;
+
+                pre.textContent = '';
+
+                pre.setAttribute('data-line', line)
+                code.textContent = 'Loading…';
+
+                pre.appendChild(code);
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', src, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+
+                            Prism.highlightElement(code);
+                        }
+                        else if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                        }
+                        else {
+                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
+                        }
+                    }
+                };
+
+                xhr.send(null);
+            });
+        }
+
+        var modals = document.querySelectorAll("[data-modal]");
+
+        modals.forEach(function (trigger) {
+            trigger.addEventListener("click", function (event) {
+                //event.preventDefault();
+                const modal = document.getElementById(trigger.dataset.modal);
+                modal.classList.add("phpdocumentor-modal__open");
+                loadExternalCodeSnippets(trigger.dataset.line)
+                const exits = modal.querySelectorAll("[data-exit-button]");
+                exits.forEach(function (exit) {
+                    exit.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        modal.classList.remove("phpdocumentor-modal__open");
+                    });
+                });
+            });
+        });
+    </script>
+
+    </article>
+                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+    <section class="phpdocumentor-search-results__dialog">
+        <header class="phpdocumentor-search-results__header">
+            <h2 class="phpdocumentor-search-results__title">Search results</h2>
+            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
+        </header>
+        <section class="phpdocumentor-search-results__body">
+            <ul class="phpdocumentor-search-results__entries"></ul>
+        </section>
+    </section>
+</section>
+            </div>
+        </div>
+        <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+
+    </main>
+
+    <script>
+        cssVars({});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+</body>
+</html>
