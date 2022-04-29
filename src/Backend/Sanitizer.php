@@ -50,9 +50,9 @@ use function ob_get_level;
  * };
  *
  * $uris = [
- *    'link'   => sprintf('data:text/css;charset=UTF-8;base64,%s', base64_encode('body::after{content:"Consent Please";color:orangered}')),
- *    'script' => sprintf('data:text/javascript;charset=UTF-8;base64,%s', base64_encode('console.log("Blocked!")')),
- *    'iframe' => sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('<div>Consent Please!</div>')),
+ *    'link'   => sprintf('data:text/css;charset=UTF-8;base64,%s', base64_encode('body::after{content:"Blocked! Consent Please.";color:orangered}')),
+ *    'script' => sprintf('data:text/javascript;charset=UTF-8;base64,%s', base64_encode('console.log("Blocked! Consent Please.")')),
+ *    'iframe' => sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('<div>Blocked! Consent Please.</div>')),
  * ];
  *
  * $appends = [
@@ -79,10 +79,12 @@ use function ob_get_level;
  * // (2) create index.php with following content
  * // (3) the result will simply be returned to the client
  *
+ * require '/path/to/src/Backend/Sanitizer.php';
+ *
  * \MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $appends);
  * ```
  *
- * @package MAKS\GDPRTools
+ * @package MAKS\GDPRTools\Backend
  * @since 1.0.0
  * @api
  */
@@ -149,6 +151,13 @@ final class Sanitizer
     private string $data;
 
     /**
+     * The condition to check before sanitizing.
+     *
+     * @var callable
+     */
+    private $condition;
+
+    /**
      * The temporary URIs/URLs to replace the original sources with.
      *
      * @var array<string,string>
@@ -156,18 +165,19 @@ final class Sanitizer
     private array $uris;
 
     /**
-     * The condition to check before sanitizing.
+     * The list of the whitelisted domains that should not be sanitized.
      *
-     * @var callable
+     * @var array<int,string>
      */
-    private $condition;
+    private array $whitelist;
 
 
     public function __construct()
     {
         $this->data      = '';
-        $this->uris      = [];
         $this->condition = fn () => true;
+        $this->uris      = [];
+        $this->whitelist = [];
         $this->result    = '';
     }
 
@@ -211,6 +221,21 @@ final class Sanitizer
     public function setURIs(array $uris)
     {
         $this->uris = $uris;
+
+        return $this;
+    }
+
+    /**
+     * Sets the list of whitelisted domains that should not be sanitized.
+     *
+     * @param array<int,string> $whitelist An array of domains that should not be sanitized.
+     *      Sub-domains must be specified separately.
+     *
+     * @return static
+     */
+    public function setWhitelist(array $whitelist)
+    {
+        $this->whitelist = $whitelist;
 
         return $this;
     }
@@ -288,12 +313,14 @@ final class Sanitizer
      * Sanitize the given HTML code.
      *
      * @param string $data The HTML code to sanitize.
-     * @param callable $condition [optional] The condition to check before sanitizing.
+     * @param callable|null $condition [optional] The condition to check before sanitizing.
      *      The passed callback will be executed when calling `self::sanitize()` to check if the data should be sanitized.
      *      The callback will be passed the data and must return a boolean (signature: `fn (string $data): bool`).
      *      The callback should check for a Cookie or something in the data (HTML) to determine whether to sanitize the data or not.
-     * @param array<string,string> $uris [optional] The temporary URIs/URLs to set for each sanitized element.
+     * @param array<string,string>|null $uris [optional] The temporary URIs/URLs to set for each sanitized element.
      *      An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.
+     * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
+     *      Sub-domains must be specified separately.
      * @param array<string,array|string>|null $appends [optional] The data to append.
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
@@ -303,6 +330,7 @@ final class Sanitizer
         string $data,
         ?callable $condition = null,
         ?array $uris = null,
+        ?array $whitelist = null,
         ?array $appends = null
     ): string {
         $this->setData($data);
@@ -313,6 +341,10 @@ final class Sanitizer
 
         if (!empty($uris)) {
             $this->setURIs($uris);
+        }
+
+        if (!empty($whitelist)) {
+            $this->setWhitelist($whitelist);
         }
 
         $this->sanitize();
@@ -334,12 +366,14 @@ final class Sanitizer
      *      as it will flush all opened buffers to the client.
      *
      * @param string $data The HTML code to sanitize.
-     * @param callable $condition [optional] The condition to check before sanitizing.
+     * @param callable|null $condition [optional] The condition to check before sanitizing.
      *      The passed callback will be executed when calling `self::sanitize()` to check if the data should be sanitized.
      *      The callback will be passed the data and must return a boolean (signature: `fn (string $data): bool`).
      *      The callback should check for a Cookie or something in the data (HTML) to determine whether to sanitize the data or not.
-     * @param array<string,string> $uris [optional] The temporary URIs/URLs to set for each sanitized element.
+     * @param array<string,string>|null $uris [optional] The temporary URIs/URLs to set for each sanitized element.
      *      An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.
+     * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
+     *      Sub-domains must be specified separately.
      * @param array<string,array|string>|null $appends [optional] The data to append.
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
@@ -351,13 +385,15 @@ final class Sanitizer
         string $path,
         ?callable $condition = null,
         ?array $uris = null,
+        ?array $whitelist = null,
         ?array $appends = null
     ): void {
-        ob_start(function ($data) use ($condition, $uris, $appends) {
+        ob_start(function ($data) use ($condition, $uris, $whitelist, $appends) {
             return (new self())->sanitizeData(
                 $data,
                 $condition,
                 $uris,
+                $whitelist,
                 $appends
             );
         });
@@ -371,6 +407,19 @@ final class Sanitizer
             ob_flush();
             flush();
         }
+    }
+
+    /**
+     * Returns a listed of domains that should not be sanitized.
+     *
+     * @return array<int,string>
+     */
+    private function getDomains(): array
+    {
+        $origin  = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $domains = array_filter(array_merge([$origin], array_values($this->whitelist)));
+
+        return $domains;
     }
 
     /**
@@ -396,17 +445,22 @@ final class Sanitizer
      */
     private function getSearchPattern(): string
     {
-        // elements which load external resources and have a src or an equivalent attribute
-        // that are not requesting the same origin
+        $domains = $this->getDomains();
 
-        $origin     = preg_quote($_SERVER['HTTP_HOST'] ?? 'localhost', '/');
         $elements   = implode('|', array_keys(self::ELEMENTS));
-        $attributes = implode('|', array_map(fn ($attrs) => implode('|', $attrs), array_values(self::ELEMENTS)));
+        $attributes = implode('|', array_map(fn (array $attrs) => implode('|', $attrs), array_values(self::ELEMENTS)));
+        $whitelist  = implode('|', array_map(fn (string $domain) => preg_quote($domain, '/'), $domains));
 
-        return vsprintf(
-            '/(?:(?<head><(?<element>\s*%s)[^>]+?)(?:(?<attribute>%s)\s*=\s*"(?<value>https?:\/\/(?![^>]*%s)[^>]+?))")/',
-            [$elements, $attributes, $origin]
-        );
+        // elements which load external resources and have a src or an equivalent attribute
+        // that are not requesting the same origin or one of the whitelisted domains
+        $regex = '/(?:(?<head><(?<element>\s*{e})[^>]+?)(?:(?<attribute>{a})\s*=\s*"(?<value>https?:\/\/(?![^>]*(?:{w}))[^>]+?))")/';
+        $placeholders = [
+            '{e}' => $elements,
+            '{a}' => $attributes,
+            '{w}' => $whitelist
+        ];
+
+        return strtr($regex, $placeholders);
     }
 
     /**
