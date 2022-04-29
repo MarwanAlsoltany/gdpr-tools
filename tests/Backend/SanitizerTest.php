@@ -38,12 +38,14 @@ class SanitizerTest extends TestCase
         $data      = $this->getTestData();
         $condition = $this->getTestCondition();
         $uris      = $this->getTestURIs();
+        $whitelist = $this->getTestWhitelist();
         $appends   = $this->getTestAppends();
 
         $html = $this->sanitizer
             ->setData($data)
             ->setCondition($condition)
             ->setURIs($uris)
+            ->setWhitelist($whitelist)
             ->append($appends['head'], 'head')
             ->sanitize()
             ->append($appends['body'][0], 'body')
@@ -60,6 +62,7 @@ class SanitizerTest extends TestCase
         $this->assertStringContainsString('data-consent-value="https://', $html);
         $this->assertStringContainsString('data-consent-original-src', $html);
         $this->assertStringContainsString('data-consent-original-href', $html);
+        $this->assertStringContainsString('<script src="https://unpkg', $html);
         $this->assertStringContainsString($uris['link'], $html);
         $this->assertStringContainsString($uris['script'], $html);
         $this->assertStringContainsString($uris['iframe'], $html);
@@ -72,9 +75,10 @@ class SanitizerTest extends TestCase
         $data      = $this->getTestData();
         $condition = $this->getTestCondition();
         $uris      = $this->getTestURIs();
+        $whitelist = $this->getTestWhitelist();
         $appends   = $this->getTestAppends();
 
-        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $appends);
+        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $whitelist, $appends);
 
         $this->assertIsString($html);
         $this->assertNotEquals($data, $html);
@@ -89,6 +93,7 @@ class SanitizerTest extends TestCase
         $data      = $this->getTestData();
         $condition = $this->getTestCondition();
         $uris      = $this->getTestURIs();
+        $whitelist = $this->getTestWhitelist();
         $appends   = $this->getTestAppends();
 
         Sanitizer::$attributes = [
@@ -98,7 +103,7 @@ class SanitizerTest extends TestCase
             'data-consent-original' => 'data-gdpr-original',
         ];
 
-        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $appends);
+        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $whitelist, $appends);
 
         $this->assertIsString($html);
         $this->assertNotEquals($data, $html);
@@ -134,6 +139,7 @@ class SanitizerTest extends TestCase
     <title>Test</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/lodash@1.3.0/dist/lodash.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -161,6 +167,14 @@ HTML;
             'link'   => sprintf('data:text/css;charset=UTF-8;base64,%s', base64_encode('body::after{content:"Consent Please";color:orangered}')),
             'script' => sprintf('data:text/javascript;charset=UTF-8;base64,%s', base64_encode('console.log("Blocked!")')),
             'iframe' => sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('<div>Consent Please!</div>')),
+        ];
+    }
+
+    private function getTestWhitelist(): array
+    {
+        return [
+            'google.com',
+            'unpkg.com',
         ];
     }
 
