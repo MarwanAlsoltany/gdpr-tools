@@ -82,13 +82,15 @@ In short, GDPR is a set of rules and regulations that are designed to ensure tha
 
 ### Why does GDPR-Tools exist?
 
-Normally, if you are building a new application, you must make the application GDPR compliant as you're building the app, but this is mostly not the case. If you have an application that is already built and you want to make it GDPR compliant, you have to go through the code again to see which elements load external resources and try to implement a way to make them load after client consent. There are also other stuff like iFrames and any other embeddable resources that get added by editors or plugins (in a CMS for example), these all must be blocked until the user gives consent depending on their category.
+Normally, if you are building a new application, you must make the application GDPR compliant as you're building the app, but this is mostly not the case. If you have an application that is already built and you want to make it GDPR compliant, you have to go through the code again to see which elements load external resources and try to implement a way to make them load after client consent. There are also other stuff like `<iframe />` and other embeddable resources that get added by editors or plugins (in a CMS for example), these all must be blocked (depending on their category) until the user gives consent.
 
-Trying to block these resources in the client side **is not possible** because the browser does not given possibility to stop/prevent sending any request to the external resource via JavaScript.
+Trying to block these resources in the client side using JavaScript **is not possible** because the browser does not give any possibility to stop/prevent requesting the external resource.
 
-GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any request to any external (3rd-Party) before user consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
+GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any request to any external resources (3rd-Party) before user gives their consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
 
-![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to take care of the client side part. See [**./src/Frontend/consent.js**](./src/Frontend/consent.js) to get started.*
+![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *GDPR-Tools takes currently care only of blocking requests to external resources.*
+
+![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.*
 
 
 ---
@@ -128,6 +130,11 @@ private function getSanitizedContent(string $content)
        'iframe' => sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('<div>Consent Please!</div>')),
     ];
 
+    $whitelist = [
+        'unpkg.com',
+        'cdnjs.cloudflare.com',
+    ];
+
     // the data to append to the final html
     $appends = [
          'body' => [
@@ -136,22 +143,23 @@ private function getSanitizedContent(string $content)
     ];
 
     $sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())
-         ->setData($html)
+         ->setData($content)
          ->setCondition($condition)
          ->setURIs($uris)
+         ->setWhitelist($whitelist)
          ->sanitize()
          ->append($appends['body'][0], 'body')
          ->get();
 
     // or simply
-    // $sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())->sanitizeData($html, $condition, $uris, $appends);
+    // $sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())->sanitizeData($content, $condition, $uris, $whitelist, $appends);
 
     return $sanitizedHTML;
 }
 
 ```
 
-2. The sound way, is to proxy app entry point. If you don't have the luxury of using some kind of event, you can make GDPR-Tools your entry point for the application.
+1. The second way, is when you don't have the luxury of using some kind of event. It is simply to proxy app entry point. You can make a new app entry point that makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it to the client.
 ```php
 
 // first, you need to rename the application entry point to something else,
@@ -162,8 +170,8 @@ private function getSanitizedContent(string $content)
 
 include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
-// check out the `$condition`, `$uris`, `$appends` variables from the previous example
-\MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $appends);
+// check out the `$condition`, `$uris`, `$whitelist`, and `$appends` variables from the previous example
+\MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $whitelist, $appends);
 
 ```
 
@@ -172,6 +180,7 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 ### What Elements are Sanitized?
 
 By default these elements (and attributes) will be sanitized if they point to a resource that is **NOT** on the same domain as the application (not same-origin):
+
 - `<link href="" />`
 - `<script src="" />`
 - `<iframe src="" />`
@@ -183,7 +192,7 @@ By default these elements (and attributes) will be sanitized if they point to a 
 - `<track src="" />`
 - `<object data="" />`
 
-See [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
+> See [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
 
 ### How Do the Sanitized Elements Look Like?
 
@@ -197,7 +206,7 @@ Each sanitized element will contain these attributes:
 - `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`:
     - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute, the second and third data-attributes will be overwritten when the second attribute is sanitized.
 
-If want to name these attributes something else, you can provide custom names using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property:
+If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property:
 
 ```php
 
@@ -211,7 +220,7 @@ If want to name these attributes something else, you can provide custom names us
 
 ```
 
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *The name GDPR-Tools may suggest that this package contains a lot of stuff. On the contrary, it includes currently only the [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class, but this may change in the future as there may be new requirements/needs.*
+![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *The name GDPR-Tools may suggest that this package contains a lot of stuff. Well, it doesn't. It includes currently only the [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class, but this may change in the future as there may be new requirements/needs.*
 
 ---
 
