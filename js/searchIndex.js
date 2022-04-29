@@ -26,6 +26,11 @@ Search.appendIndex(
             "summary": "Sets\u0020the\u0020temporary\u0020URIs\/URLs\u0020to\u0020set\u0020for\u0020each\u0020sanitized\u0020element.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setURIs"
         },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetWhitelist\u0028\u0029",
+            "name": "setWhitelist",
+            "summary": "Sets\u0020the\u0020list\u0020of\u0020whitelisted\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setWhitelist"
+        },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Aappend\u0028\u0029",
             "name": "append",
             "summary": "Appends\u0020some\u0020data\u0020to\u0020the\u0020current\u0020data\/result.",
@@ -50,6 +55,11 @@ Search.appendIndex(
             "name": "sanitizeApp",
             "summary": "Sanitize\u0020the\u0020HTML\u0020resulting\u0020from\u0020including\u0020the\u0020passed\u0020path.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeApp"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetDomains\u0028\u0029",
+            "name": "getDomains",
+            "summary": "Returns\u0020a\u0020listed\u0020of\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getDomains"
         },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetURIs\u0028\u0029",
             "name": "getURIs",
@@ -86,15 +96,20 @@ Search.appendIndex(
             "summary": "The\u0020data\u0020to\u0020sanitize.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_data"
         },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024condition",
+            "name": "condition",
+            "summary": "The\u0020condition\u0020to\u0020check\u0020before\u0020sanitizing.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition"
+        },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024uris",
             "name": "uris",
             "summary": "The\u0020temporary\u0020URIs\/URLs\u0020to\u0020replace\u0020the\u0020original\u0020sources\u0020with.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_uris"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024condition",
-            "name": "condition",
-            "summary": "The\u0020condition\u0020to\u0020check\u0020before\u0020sanitizing.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition"
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024whitelist",
+            "name": "whitelist",
+            "summary": "The\u0020list\u0020of\u0020the\u0020whitelisted\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_whitelist"
         },                {
             "fqsen": "\\",
             "name": "\\",
