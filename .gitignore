@@ -4,6 +4,8 @@
 test.php
 vendor/*
 build/*
+**/*/node_modules
+**/*/*-lock.json
 !**/.gitkeep
 
 .ht*
