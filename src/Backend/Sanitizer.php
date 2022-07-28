@@ -129,7 +129,8 @@ final class Sanitizer
      * - `data-consent-element`
      * - `data-consent-attribute`
      * - `data-consent-value`
-     * - `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`
+     * - `data-consent-alternative`
+     * - `data-consent-original-{{ attribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`
      *
      * @var array<string,string>
      */
@@ -457,7 +458,7 @@ final class Sanitizer
         $placeholders = [
             '{e}' => $elements,
             '{a}' => $attributes,
-            '{w}' => $whitelist
+            '{w}' => $whitelist,
         ];
 
         return strtr($regex, $placeholders);
@@ -480,35 +481,34 @@ final class Sanitizer
          * INPUT:
          * <link rel="stylesheet" href="https://cdn.tld/style.css" />
          *
-         * OUTPUT: (multi line is for readability)
+         * OUTPUT: (multiline is for readability)
          * <link
          *      rel="stylesheet"
          *      href="{uri}"
          *      data-consent-element="link"
          *      data-consent-attribute="href"
          *      data-consent-value="https://cdn.tld/style.css"
+         *      data-consent-alternative="{uri}"
          *      data-consent-original-href="https://cdn.tld/style.css"
          * />
          */
-        $replacement = (
-            '%s%s="%s" ' . // i.e: <link rel="stylesheet" href="{uri}"
-            'data-consent-element="%s" ' . // i.e: data-consent-element="link"
-            'data-consent-attribute="%s" ' . // i.e: data-consent-attribute="href"
-            'data-consent-value="%s" ' . // i.e: data-consent-value="https://cdn.tld/style.css"
+        $placeholder = (
+            '{head}{attribute}="{uri}" ' . // i.e: <link rel="stylesheet" href="{uri}"
+            'data-consent-element="{element}" ' . // i.e: data-consent-element="link"
+            'data-consent-attribute="{attribute}" ' . // i.e: data-consent-attribute="href"
+            'data-consent-value="{value}" ' . // i.e: data-consent-value="https://cdn.tld/style.css"
+            'data-consent-alternative="{uri}" ' . // i.e: data-consent-alternative="{uri}"
             // in case the element has more than one sanitizable attribute, the first three
             // data-consent-* attributes will be overridden with the latest values when parsing the HTML
-            'data-consent-original-%s="%s"' // i.e: data-consent-original-href="https://cdn.tld/style.css"
+            'data-consent-original-{attribute}="{value}"' // i.e: data-consent-original-href="https://cdn.tld/style.css"
         );
 
-        return fn ($matches) => vsprintf($replacement, [
-            $matches['head'],
-            $matches['attribute'],
-            $uris[$matches['element']],
-            $matches['element'],
-            $matches['attribute'],
-            $matches['value'],
-            $matches['attribute'],
-            $matches['value'],
+        return fn ($matches) => strtr($placeholder, [
+            '{head}'      => $matches['head'],
+            '{element}'   => $matches['element'],
+            '{attribute}' => $matches['attribute'],
+            '{value}'     => $matches['value'],
+            '{uri}'       => $uris[$matches['element']],
         ]);
     }
 }
