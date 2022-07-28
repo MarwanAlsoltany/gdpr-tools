@@ -88,9 +88,9 @@ Trying to block these resources in the client side using JavaScript **is not pos
 
 GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any request to any external resources (3rd-Party) before user gives their consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
 
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *GDPR-Tools takes currently care only of blocking requests to external resources.*
+![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *~~GDPR-Tools takes currently care only of blocking requests to external resources.~~* *Starting from `v1.2.0`, GDPR-Tools can also block inline scripts.*
 
-![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.*
+![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *~~GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.~~* *Starting from `v1.2.0`, GDPR-Tools also provides a client side SDK that can be integrated using simple config with any CMP.*
 
 
 ---
@@ -98,7 +98,7 @@ GDPR-Tools was created to solve that specific problem, make the HTML returned by
 
 ## How Does it Work?
 
-You can use GDPR-Tools in two ways:
+You can use GDPR-Tools in three ways:
 
 1. The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener).
 
@@ -147,8 +147,8 @@ private function getSanitizedContent(string $content)
          ->setCondition($condition)
          ->setURIs($uris)
          ->setWhitelist($whitelist)
+         ->setAppends($appends)
          ->sanitize()
-         ->append($appends['body'][0], 'body')
          ->get();
 
     // or simply
@@ -159,7 +159,7 @@ private function getSanitizedContent(string $content)
 
 ```
 
-1. The second way, is when you don't have the luxury of using some kind of event. It is simply to proxy app entry point. You can make a new app entry point that makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it to the client.
+1. The second way, is when you don't have the luxury of using some kind of an event. You can simply proxy app entry point by making a new app entry point that points to the old app entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it to the client.
 ```php
 
 // first, you need to rename the application entry point to something else,
@@ -176,6 +176,27 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 ```
 
 ![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *The `\MAKS\GDPRTools\Backend\Sanitizer` is well documented, check out the DocBlocks of its properties and methods to learn more.*
+
+3. The third way, is to use the PHAR-Archive. The PHAR-Archive is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response and build the necessary JavaScript code that integrates with the used CMP and attach it to the response to handle the consent on the client-side. This feature is available since `v1.2.0`.
+
+```php
+
+// first, you need to download the PHAR archive (gdpr-tools.phar) from the releases page and add it in you web-server root directory
+
+// second, you need to rename the application entry point to something else,
+// let's say `index.php` is the entry point, so `index.php` becomes `app.php`
+
+// third, make a new file with the same name as the old name of app entry point
+// in our case it's `index.php`, the content of this new file would be something like this:
+
+require './gdpr-tools.phar';
+
+// finally, you need to add a config file (gdpr-tools.config.php)
+// on the same level of (gdpr-tools.phar) configure it as needed
+
+```
+
+![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *Check out the comments on [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php) fields, to learn more about the expected data-types.*
 
 ### What Elements are Sanitized?
 
@@ -194,19 +215,51 @@ By default these elements (and attributes) will be sanitized if they point to a 
 
 > See [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
 
+Starting from `v1.2.0` with the introduction of the JavaScript SDK, you can also prevent inline scripts from running (Google Analytics script for example). Because there is not way to determine if an inline script is going to perform some action that requests and external resource and requires user consent, the backend part have to done manually.
+
+The prevention of executing the script can achieved by changing the script element to the following:
+
+```html
+
+<!-- FROM -->
+<script type="text/javascript">
+    // JavaScript code ...
+</script>
+
+<!-- TO -->
+<script type="text/blocked" data-consent-element="script" data-consent-attribute="type" data-consent-value="text/javascript" data-consent-category="marketing" data-consent-alternative="text/blocked">
+    // JavaScript code ...
+</script>
+
+```
+
+When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent is given.
+
 ### How Do the Sanitized Elements Look Like?
 
 Each sanitized element will contain these attributes:
-- `data-consent-element`:
-    - The sanitized element tag name
-- `data-consent-attribute`:
-    - The sanitized attribute name
-- `data-consent-value`:
-    - The sanitized attribute value
-- `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`:
-    - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute, the second and third data-attributes will be overwritten when the second attribute is sanitized.
+- Attributes added via the Backend:
+    - `data-consent-element`:
+        - The sanitized element tag name.
+    - `data-consent-attribute`:
+        - The sanitized attribute name.
+    - `data-consent-value`:
+        - The sanitized attribute value.
+    - `data-consent-alternative`:
+        - The alternative attribute value that will be used instead of the original value.
+    - `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`:
+        - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute, the second and third data-attributes will be overwritten when the second attribute is sanitized.
+- Attributes added via the Frontend:
+    - `data-consent-category`:
+        - The sanitized element category.
+    - `data-consent-decorator`:
+        - The sanitized element decorator (wrapper element) ID (available only on elements that are decorated).
+    - `data-consent-evaluated`:
+        - The sanitized element evaluation state (available only on inline `<script>` elements).
 
-If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property:
+If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property on the backend and/or `frontend.attributes` in the config file or `config.attributes` on the frontend.
+
+#### Example of how it's done on the backend:
 
 ```php
 
@@ -214,13 +267,19 @@ If you want to name these attributes something else, you can provide custom name
     'data-consent-element' => 'data-gdpr-element',
     'data-consent-attribute' => 'data-gdpr-attribute',
     'data-consent-value' => 'data-gdpr-value',
+    'data-consent-alternative' => 'data-gdpr-alternative',
     // data-consent-original-(href|src|srcset|poster|data)
     'data-consent-original-src' => 'data-gdpr-original-src',
 ];
 
 ```
 
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *The name GDPR-Tools may suggest that this package contains a lot of stuff. Well, it doesn't. It includes currently only the [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class, but this may change in the future as there may be new requirements/needs.*
+#### Example of how it's done in the config file:
+
+- [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php#L52):
+
+#### Example of how it's done in the frontend:
+- [`AbstractCmpHelper.js`](./src/Frontend/src/classes/AbstractCmpHelper.js#L672)
 
 ---
 
