@@ -55,6 +55,11 @@ use function ob_get_level;
  *    'iframe' => sprintf('data:text/html;charset=UTF-8;base64,%s', base64_encode('<div>Blocked! Consent Please.</div>')),
  * ];
  *
+ * $whitelist = [
+ *     'unpkg.com',
+ *     'cdnjs.cloudflare.com',
+ * ];
+ *
  * $appends = [
  *      'body' => [
  *          '<script defer src="/path/to/client-side-code.js"></script>',
@@ -65,13 +70,15 @@ use function ob_get_level;
  *      ->setData($html)
  *      ->setCondition($condition)
  *      ->setURIs($uris)
+ *      ->setWhitelist($whitelist)
+ *       ->setAppends($appends)
  *      ->sanitize()
- *      ->append($appends['body'][0], 'body')
+ *      ->append('<script id="sanitization">{"sanitized":true}</script>', 'body') // add additional appends.
  *      ->get();
  *
  *
  * // sanitizing using the shorthand
- * $sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())->sanitizeData($html, $condition, $uris, $appends);
+ * $sanitizedHTML = (new \MAKS\GDPRTools\Backend\Sanitizer())->sanitizeData($html, $condition, $uris, $whitelist, $appends);
  *
  *
  * // sanitizing app entry
@@ -81,14 +88,14 @@ use function ob_get_level;
  *
  * require '/path/to/src/Backend/Sanitizer.php';
  *
- * \MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $appends);
+ * \MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $whitelist, $appends);
  * ```
  *
  * @package MAKS\GDPRTools\Backend
  * @since 1.0.0
  * @api
  */
-final class Sanitizer
+class Sanitizer
 {
     /**
      * HTML elements that load external resources.
@@ -191,8 +198,21 @@ final class Sanitizer
         $this->whitelist = [];
         $this->appends   = [];
         $this->result    = '';
+
+
+        $this->bootstrap();
     }
 
+
+    /**
+     * Use this method instead of `self::__construct()` to bootstrap the object.
+     *
+     * @since 1.2.0
+     */
+    protected function bootstrap(): void
+    {
+        // ...
+    }
 
     /**
      * Sets the data to sanitize.
@@ -418,7 +438,7 @@ final class Sanitizer
         ?array $appends = null
     ): void {
         ob_start(function ($data) use ($condition, $uris, $whitelist, $appends) {
-            return (new self())->sanitizeData(
+            return (new static())->sanitizeData(
                 $data,
                 $condition,
                 $uris,
@@ -433,8 +453,8 @@ final class Sanitizer
         // normally this should be done by the Response object
         while (ob_get_level()) {
             ob_end_flush();
-            ob_flush();
-            flush();
+            ob_get_level() && ob_flush();
+            ob_get_level() && flush();
         }
     }
 
