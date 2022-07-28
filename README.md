@@ -177,7 +177,7 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
 ![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *The `\MAKS\GDPRTools\Backend\Sanitizer` is well documented, check out the DocBlocks of its properties and methods to learn more.*
 
-3. The third way, is to use the PHAR-Archive. The PHAR-Archive is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response and build the necessary JavaScript code that integrates with the used CMP and attach it to the response to handle the consent on the client-side. This feature is available since `v1.2.0`.
+3. The third way, is to use the PHAR-Archive. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response and build the necessary JavaScript code that integrates with the used CMP and attach it to the response to handle the consent on the client-side. This feature is available since `v1.2.0`.
 
 ```php
 
