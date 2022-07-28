@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * @author Marwan Al-Soltany <MarwanAlsoltany@gmail.com>
+ * @copyright Marwan Al-Soltany 2022
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+define('NAME', 'gdpr-tools');
+define('ROOT', dirname(__DIR__));
+
+$file = sprintf('%s/dist/%s.phar', ROOT, NAME);
+
+try {
+    if (file_exists($old = $file) || file_exists($old = $file . '.gz')) {
+        unlink($old);
+    }
+
+    $phar = new Phar($file, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO, NAME);
+    $phar->startBuffering();
+    $phar->buildFromDirectory(ROOT . '/src', '/^(?!(.*(vendor|node_modules)))(.*)$/i');
+
+    $stub = $phar->createDefaultStub('Package/main.php');
+
+    $phar->setStub($stub);
+    $phar->stopBuffering();
+    $phar->compressFiles(Phar::GZ);
+
+    chmod($file, 0755);
+
+    echo "\n\e[32mThe PHAR archive '{$file}' was created successfully!\e[0m\n\n";
+
+    exit(0);
+} catch (Throwable $error) {
+    echo "\n\e[31mThe PHAR archive '{$file}' was not created! Reason: {$error->getMessage()}\e[0m\n\n";
+
+    exit(1);
+}
