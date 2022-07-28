@@ -1,125 +1,60 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer",
-            "name": "Sanitizer",
-            "summary": "A\u0020class\u0020that\u0020sanitizes\u0020HTML\u0020elements\u0020that\u0020automatically\u0020load\u0020external\u0020resources\nby\u0020setting\u0020their\u0020attributes\u0020that\u0020load\u0020the\u0020external\u0020resources\u0020to\u0020temporary\u0020URI\/URL\nand\u0020saving\u0020the\u0020original\u0020attributes\u0020values\u0020in\u0020a\u0020temporary\u0020attribute\u0020to\u0020be\u0020used\u0020upon\u0020consent.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
+            "fqsen": "\\NAME",
+            "name": "NAME",
             "summary": "",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method___construct"
+            "url": "namespaces/default.html#constant_NAME"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetData\u0028\u0029",
-            "name": "setData",
-            "summary": "Sets\u0020the\u0020data\u0020to\u0020sanitize.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setData"
+            "fqsen": "\\PHAR",
+            "name": "PHAR",
+            "summary": "",
+            "url": "namespaces/default.html#constant_PHAR"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetCondition\u0028\u0029",
-            "name": "setCondition",
-            "summary": "Sets\u0020the\u0020condition\u0020to\u0020check\u0020that\u0020determines\u0020whether\u0020to\u0020sanitize\u0020the\u0020data\u0020or\u0020not.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setCondition"
+            "fqsen": "\\ROOT",
+            "name": "ROOT",
+            "summary": "",
+            "url": "namespaces/default.html#constant_ROOT"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetURIs\u0028\u0029",
-            "name": "setURIs",
-            "summary": "Sets\u0020the\u0020temporary\u0020URIs\/URLs\u0020to\u0020set\u0020for\u0020each\u0020sanitized\u0020element.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setURIs"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getCmpHelperScript\u0028\u0029",
+            "name": "getCmpHelperScript",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getCmpHelperScript"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetWhitelist\u0028\u0029",
-            "name": "setWhitelist",
-            "summary": "Sets\u0020the\u0020list\u0020of\u0020whitelisted\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setWhitelist"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getCmpHelperConfig\u0028\u0029",
+            "name": "getCmpHelperConfig",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getCmpHelperConfig"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Aappend\u0028\u0029",
-            "name": "append",
-            "summary": "Appends\u0020some\u0020data\u0020to\u0020the\u0020current\u0020data\/result.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_append"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getCmpHelperFileScript\u0028\u0029",
+            "name": "getCmpHelperFileScript",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getCmpHelperFileScript"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Asanitize\u0028\u0029",
-            "name": "sanitize",
-            "summary": "Sanitizes\u0020the\u0020current\u0020data.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitize"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getCmpHelperBase64Script\u0028\u0029",
+            "name": "getCmpHelperBase64Script",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getCmpHelperBase64Script"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Aget\u0028\u0029",
-            "name": "get",
-            "summary": "Returns\u0020the\u0020current\u0020result\u0020and\u0020resets\u0020class\u0020internal\u0020state.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_get"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getConfigValue\u0028\u0029",
+            "name": "getConfigValue",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getConfigValue"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsanitizeData\u0028\u0029",
-            "name": "sanitizeData",
-            "summary": "Sanitize\u0020the\u0020given\u0020HTML\u0020code.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeData"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsanitizeApp\u0028\u0029",
-            "name": "sanitizeApp",
-            "summary": "Sanitize\u0020the\u0020HTML\u0020resulting\u0020from\u0020including\u0020the\u0020passed\u0020path.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeApp"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetDomains\u0028\u0029",
-            "name": "getDomains",
-            "summary": "Returns\u0020a\u0020listed\u0020of\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getDomains"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetURIs\u0028\u0029",
-            "name": "getURIs",
-            "summary": "Returns\u0020the\u0020Data\u002DURIs\u0020to\u0020set\u0020to\u0020the\u0020sanitized\u0020elements.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getURIs"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetSearchPattern\u0028\u0029",
-            "name": "getSearchPattern",
-            "summary": "Returns\u0020the\u0020search\u0020pattern\u0020to\u0020find\u0020the\u0020elements\u0020to\u0020sanitize.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getSearchPattern"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AgetReplaceCallback\u0028\u0029",
-            "name": "getReplaceCallback",
-            "summary": "Returns\u0020the\u0020callback\u0020to\u0020replace\u0020the\u0020elements\u0020to\u0020sanitize.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getReplaceCallback"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AELEMENTS",
-            "name": "ELEMENTS",
-            "summary": "HTML\u0020elements\u0020that\u0020load\u0020external\u0020resources.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_ELEMENTS"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024attributes",
-            "name": "attributes",
-            "summary": "The\u0020overrides\u0020for\u0020the\u0020names\u0020of\u0020the\u0020attributes\u0020added\u0020after\u0020the\u0020sanitization.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_attributes"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024result",
-            "name": "result",
-            "summary": "The\u0020result\u0020after\u0020the\u0020sanitization.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_result"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024data",
-            "name": "data",
-            "summary": "The\u0020data\u0020to\u0020sanitize.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_data"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024condition",
-            "name": "condition",
-            "summary": "The\u0020condition\u0020to\u0020check\u0020before\u0020sanitizing.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024uris",
-            "name": "uris",
-            "summary": "The\u0020temporary\u0020URIs\/URLs\u0020to\u0020replace\u0020the\u0020original\u0020sources\u0020with.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_uris"
-        },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024whitelist",
-            "name": "whitelist",
-            "summary": "The\u0020list\u0020of\u0020the\u0020whitelisted\u0020domains\u0020that\u0020should\u0020not\u0020be\u0020sanitized.",
-            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_whitelist"
+            "fqsen": "\\MAKS\\GDPRTools\\Package\\getConfigValidations\u0028\u0029",
+            "name": "getConfigValidations",
+            "summary": "",
+            "url": "namespaces/maks-gdprtools-package.html#function_getConfigValidations"
         },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\MAKS\\GDPRTools\\Backend",
-            "name": "Backend",
+            "fqsen": "\\MAKS\\GDPRTools\\Package",
+            "name": "Package",
             "summary": "",
-            "url": "namespaces/maks-gdprtools-backend.html"
+            "url": "namespaces/maks-gdprtools-package.html"
         },                {
             "fqsen": "\\MAKS\\GDPRTools",
             "name": "GDPRTools",
