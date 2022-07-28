@@ -60,6 +60,7 @@ class SanitizerTest extends TestCase
         $this->assertStringContainsString('data-consent-attribute="src"', $html);
         $this->assertStringContainsString('data-consent-attribute="href"', $html);
         $this->assertStringContainsString('data-consent-value="https://', $html);
+        $this->assertStringContainsString('data-consent-alternative', $html);
         $this->assertStringContainsString('data-consent-original-src', $html);
         $this->assertStringContainsString('data-consent-original-href', $html);
         $this->assertStringContainsString('<script src="https://unpkg', $html);
@@ -100,6 +101,7 @@ class SanitizerTest extends TestCase
             'data-consent-element' => 'data-gdpr-element',
             'data-consent-attribute' => 'data-gdpr-attribute',
             'data-consent-value' => 'data-gdpr-value',
+            'data-consent-alternative' => 'data-gdpr-alternative',
             'data-consent-original' => 'data-gdpr-original',
         ];
 
@@ -112,6 +114,7 @@ class SanitizerTest extends TestCase
         $this->assertStringContainsString('data-gdpr-element=', $html);
         $this->assertStringContainsString('data-gdpr-attribute=', $html);
         $this->assertStringContainsString('data-gdpr-value=', $html);
+        $this->assertStringContainsString('data-gdpr-alternative=', $html);
         $this->assertStringContainsString('data-gdpr-original-href=', $html);
     }
 
@@ -158,7 +161,7 @@ HTML;
 
     private function getTestCondition(): callable
     {
-        return fn ($data) => strpos($data, '<!DOCTYPE html>') !== false;
+        return fn ($data) => stripos($data, '<!DOCTYPE html>') !== false;
     }
 
     private function getTestURIs(): array
