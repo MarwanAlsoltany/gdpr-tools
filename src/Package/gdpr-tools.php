@@ -55,15 +55,17 @@ if (getConfigValue($configuration, 'javascriptFile', false)) {
     $script = getCmpHelperBase64Script($script);
 }
 
-$entry     = getConfigValue($configuration, 'entryPoint', ROOT . '/app.php');
-$condition = getConfigValue($configuration, 'backend.condition', fn ($data) => stripos($data, '<!DOCTYPE html>') !== false);
-$uris      = getConfigValue($configuration, 'backend.uris', []);
-$whitelist = getConfigValue($configuration, 'backend.whitelist', []);
-$appends   = getConfigValue($configuration, 'backend.appends', ['head' => [''], 'body' => ['']]);
+$entry      = getConfigValue($configuration, 'entryPoint', ROOT . '/app.php');
+$condition  = getConfigValue($configuration, 'backend.condition', fn ($data) => stripos($data, '<!DOCTYPE html>') !== false);
+$uris       = getConfigValue($configuration, 'backend.uris', []);
+$whitelist  = getConfigValue($configuration, 'backend.whitelist', []);
+$appends    = getConfigValue($configuration, 'backend.appends', ['head' => [''], 'body' => ['']]);
+$attributes = getConfigValue($configuration, 'frontend.attributes', []);
 
 $appends['body']   = (array)$appends['body'];
 $appends['body'][] = $script;
 
+Sanitizer::$attributes = $attributes;
 Sanitizer::sanitizeApp($entry, $condition, $uris, $whitelist, $appends);
 
 
