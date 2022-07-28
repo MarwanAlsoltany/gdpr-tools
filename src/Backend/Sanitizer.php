@@ -172,13 +172,24 @@ final class Sanitizer
      */
     private array $whitelist;
 
+    /**
+     * The list of appends for each target.
+     *
+     * @param array<string,array<string,array<string>|string>
+     */
+    private array $appends;
 
+
+    /**
+     * Sanitizer constructor.
+     */
     public function __construct()
     {
         $this->data      = '';
         $this->condition = fn () => true;
         $this->uris      = [];
         $this->whitelist = [];
+        $this->appends   = [];
         $this->result    = '';
     }
 
@@ -237,6 +248,21 @@ final class Sanitizer
     public function setWhitelist(array $whitelist)
     {
         $this->whitelist = $whitelist;
+
+        return $this;
+    }
+
+    /**
+     * Sets the list of appends for each target.
+     *
+     * @param array<string,array<string,array<string>|string> $appends The data to append.
+     *      An associative array where keys are the target to append to and values are a string or array of the data to append.
+     *
+     * @return static
+     */
+    public function setAppends(array $appends)
+    {
+        $this->appends = $appends;
 
         return $this;
     }
@@ -322,7 +348,7 @@ final class Sanitizer
      *      An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.
      * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
      *      Sub-domains must be specified separately.
-     * @param array<string,array|string>|null $appends [optional] The data to append.
+     * @param array<string,array<string,array<string>|string>|null $appends [optional] The data to append.
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
      * @return string The sanitized HTML code.
@@ -348,13 +374,15 @@ final class Sanitizer
             $this->setWhitelist($whitelist);
         }
 
+        if (!empty($appends)) {
+            $this->setAppends($appends);
+        }
+
         $this->sanitize();
 
-        if (!empty($appends)) {
-            foreach ($appends as $target => $data) {
-                $data = implode(' ', (array)$data);
-                $this->append($data, $target);
-            }
+        foreach ($this->appends as $target => $data) {
+            $data = implode(' ', (array)$data);
+            $this->append($data, $target);
         }
 
         return $this->get();
