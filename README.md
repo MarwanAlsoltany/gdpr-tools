@@ -2,12 +2,13 @@
 
 <div align="center">
 
-Sanitize any PHP application HTML response to be GDPR compliant.
+Sanitize any PHP application HTML response to be GDPR-compliant.
 
 
 [![PHP Version][php-icon]][php-href]
 [![Latest Version on Packagist][version-icon]][version-href]
-[![Total Downloads][downloads-icon]][downloads-href]
+[![Packagist Downloads][downloads-icon]][downloads-href]
+[![GitHub Downloads][github-downloads-icon]][github-downloads-href]
 [![License][license-icon]][license-href]
 [![Maintenance][maintenance-icon]][maintenance-href]
 [![Documentation][documentation-icon]][documentation-href]
@@ -76,21 +77,21 @@ Download [GDPR-Tools](https://github.com/MarwanAlsoltany/gdpr-tools/releases) as
 
 ## About GDPR-Tools
 
-GDPR-Tools is a simple and a fast way that help making an application [GDPR](https://gdpr.eu/what-is-gdpr/) compliant.
+GDPR-Tools is a simple and a fast way that helps in making an application [GDPR](https://gdpr.eu/what-is-gdpr/) compliant.
 In short, GDPR is a set of rules and regulations that are designed to ensure that data is handled in a way that is compatible with the principles of the European Union's General Data Protection Regulation.
 
 
 ### Why does GDPR-Tools exist?
 
-Normally, if you are building a new application, you must make the application GDPR compliant as you're building the app, but this is mostly not the case. If you have an application that is already built and you want to make it GDPR compliant, you have to go through the code again to see which elements load external resources and try to implement a way to make them load after client consent. There are also other stuff like `<iframe />` and other embeddable resources that get added by editors or plugins (in a CMS for example), these all must be blocked (depending on their category) until the user gives consent.
+Normally, if you are building a new application, you should make the application GDPR-compliant as you're building the app, but this is mostly not the case. If you have an application that is already built and you want to make it GDPR-compliant, you have to go through the code again to see which elements load external resources and try to implement a way to make them load after client consent. There are also other stuff like `<iframe />` elements and other embeddable resources that get added by editors or plugins (in a CMS context for example). To make the app GDPR-compliant, all these resources must be blocked (depending on their category) until the user gives their consent.
 
 Trying to block these resources in the client side using JavaScript **is not possible** because the browser does not give any possibility to stop/prevent requesting the external resource.
 
-GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any request to any external resources (3rd-Party) before user gives their consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
+GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any requests to any external resources (3rd-Party services) before user gives their consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of the attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
 
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *~~GDPR-Tools takes currently care only of blocking requests to external resources.~~* *Starting from `v1.2.0`, GDPR-Tools can also block inline scripts.*
+![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *~~GDPR-Tools takes currently care only of blocking requests to external resources.~~* *Starting from `v1.2.0`, GDPR-Tools can also block inline scripts. Actually, it can block/modify any attributes as long as it constructed how to do that.*
 
-![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *~~GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.~~* *Starting from `v1.2.0`, GDPR-Tools also provides a client side SDK that can be integrated using simple config with any CMP.*
+![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *~~GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.~~* *Starting from `v1.2.0`, GDPR-Tools also provides a client side [**SDK**](./src/Frontend/src) that can be integrated using simple config with any CMP.*
 
 
 ---
@@ -100,7 +101,7 @@ GDPR-Tools was created to solve that specific problem, make the HTML returned by
 
 You can use GDPR-Tools in three ways:
 
-1. The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener).
+1. The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener. The following code snippet demonstrates a slimmed down version of how to do that:
 
 ```php
 
@@ -109,12 +110,12 @@ public function onKernelResponse(\Symfony\Component\HttpKernel\Event\ResponseEve
     $response = $event->getResponse();
     $content  = $response->getContent();
 
-    $sanitizedContent = $this->getSanitizedContent($content);
+    $sanitizedContent = $this->sanitizedContent($content);
 
     $response->setContent($sanitizedContent);
 }
 
-private function getSanitizedContent(string $content)
+private function sanitizedContent(string $content): string
 {
     // the condition that determines whether to sanitize the content or not
     $condition = function ($data) {
@@ -131,6 +132,7 @@ private function getSanitizedContent(string $content)
     ];
 
     $whitelist = [
+        'cdn.your-cmp.com',
         'unpkg.com',
         'cdnjs.cloudflare.com',
     ];
@@ -159,7 +161,7 @@ private function getSanitizedContent(string $content)
 
 ```
 
-1. The second way, is when you don't have the luxury of using some kind of an event. You can simply proxy app entry point by making a new app entry point that points to the old app entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it to the client.
+1. The second way, is when you don't have the luxury of using some kind of an event. In this case, you can simply proxy app entry point by making a new entry point that points to the old entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it back to the client. The following code snippet demonstrates a slimmed down version of how to do that:
 ```php
 
 // first, you need to rename the application entry point to something else,
@@ -177,7 +179,7 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
 ![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *The `\MAKS\GDPRTools\Backend\Sanitizer` is well documented, check out the DocBlocks of its properties and methods to learn more.*
 
-3. The third way, is to use the PHAR-Archive. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response and build the necessary JavaScript code that integrates with the used CMP and attach it to the response to handle the consent on the client-side. This feature is available since `v1.2.0`.
+1. The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
 
 ```php
 
@@ -213,9 +215,9 @@ By default these elements (and attributes) will be sanitized if they point to a 
 - `<track src="" />`
 - `<object data="" />`
 
-> See [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
+> Check out [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
 
-Starting from `v1.2.0` with the introduction of the JavaScript SDK, you can also prevent inline scripts from running (Google Analytics script for example). Because there is not way to determine if an inline script is going to perform some action that requests and external resource and requires user consent, the backend part have to done manually.
+Starting from `v1.2.0` with the introduction of the JavaScript SDK, you can also prevent inline scripts from running (Google Analytics script for example). Because there is not way to determine if an inline script is going to perform some action that requests and external resource and therefore requires user consent, the backend part in this case have to done manually.
 
 The prevention of executing the script can achieved by changing the script element to the following:
 
@@ -227,18 +229,18 @@ The prevention of executing the script can achieved by changing the script eleme
 </script>
 
 <!-- TO -->
-<script type="text/blocked" data-consent-element="script" data-consent-attribute="type" data-consent-value="text/javascript" data-consent-category="marketing" data-consent-alternative="text/blocked">
+<script type="text/blocked" data-consent-element="script" data-consent-attribute="type" data-consent-value="text/javascript" data-consent-category="marketing">
     // JavaScript code ...
 </script>
 
 ```
 
-When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent is given.
+When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent to the given category is given and add the `data-consent-evaluated="true"` attribute to denote that the script have been evaluated and the `data-consent-alternative="text/blocked"` to revert back the element if the consent is withdrawn.
 
 ### How Do the Sanitized Elements Look Like?
 
 Each sanitized element will contain these attributes:
-- Attributes added via the Backend:
+- Attributes added in the Backend:
     - `data-consent-element`:
         - The sanitized element tag name.
     - `data-consent-attribute`:
@@ -246,10 +248,10 @@ Each sanitized element will contain these attributes:
     - `data-consent-value`:
         - The sanitized attribute value.
     - `data-consent-alternative`:
-        - The alternative attribute value that will be used instead of the original value.
+        - The alternative attribute value that will be used instead of the original value (this attribute will be added in the frontend automatically if it was not specified in the backend).
     - `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`:
         - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute, the second and third data-attributes will be overwritten when the second attribute is sanitized.
-- Attributes added via the Frontend:
+- Attributes added in the Frontend:
     - `data-consent-category`:
         - The sanitized element category.
     - `data-consent-decorator`:
@@ -257,9 +259,9 @@ Each sanitized element will contain these attributes:
     - `data-consent-evaluated`:
         - The sanitized element evaluation state (available only on inline `<script>` elements).
 
-If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property on the backend and/or `frontend.attributes` in the config file or `config.attributes` on the frontend.
+If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property on the backend and/or `frontend.attributes` in the config file or `settings.attributes` on the frontend.
 
-#### Example of how it's done on the backend:
+#### Example of how it's done on the Backend:
 
 ```php
 
@@ -276,10 +278,99 @@ If you want to name these attributes something else, you can provide custom name
 
 #### Example of how it's done in the config file:
 
-- [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php#L52):
+- [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php#L54):
 
-#### Example of how it's done in the frontend:
+#### Example of how it's done in the Frontend:
 - [`AbstractCmpHelper.js`](./src/Frontend/src/classes/AbstractCmpHelper.js#L672)
+
+
+### JavaScript SDK
+
+The JavaScript SDK is pretty straightforward. You can either use the complied `ConcreteCmpHelper` class extend the `AbstractCmpHelper` class or `ConcreteCmpHelper` class to create your own `CmpHelper` class. The example bellow demonstrates how to use the shipped `ConcreteCmpHelper` class.
+
+```js
+
+const config = {
+  cookieName: 'CmpCookie',
+  objectName: 'CmpObject',
+  updateEventName: 'CmpObjectOnUpdate',
+  functions: {
+    showDialog: () => CmpObject.showDialog(),
+    consentTo: (category) => CmpObject.consentTo(category),
+    isConsentedTo: (category) => CmpObject.isConsentedTo(category),
+  },
+  settings: {
+    attributes: {
+      'data-consent-element':         'data-consent-element',
+      'data-consent-attribute':       'data-consent-attribute',
+      'data-consent-value':           'data-consent-value',
+      'data-consent-alternative':     'data-consent-alternative',
+      'data-consent-original-href':   'data-consent-original-href',
+      'data-consent-original-src':    'data-consent-original-src',
+      'data-consent-original-srcset': 'data-consent-original-srcset',
+      'data-consent-original-poster': 'data-consent-original-poster',
+      'data-consent-original-data':   'data-consent-original-data',
+      'data-consent-category':        'data-consent-category',
+      'data-consent-decorator':       'data-consent-decorator',
+      'data-consent-evaluated':       'data-consent-evaluated',
+    },
+    categories: [
+      'necessary',
+      'preferences',
+      'statistics',
+      'marketing',
+      'unclassified',
+    ],
+    categorization: {
+      necessary: [
+        'google.com/recaptcha',
+      ],
+      preferences: [
+        'cdn.jsdelivr.net',
+      ],
+      statistics: [
+        'google-analytics.com',
+      ],
+      marketing: [
+        'facebook.com',
+        'twitter.com',
+        'google.com',
+        'youtube.com',
+        'youtube-nocookie.com',
+      ],
+      unclassified: [],
+    },
+    decorations: [
+      'iframe',
+      'img',
+      'audio',
+      'video',
+    ],
+    messages: {
+      overlayTitle:        'Content is being blocked due to insufficient Cookies configuration!',
+      overlayDescription:  'This content requires consent to the "{type}" cookies, to be viewed.',
+      overlayAcceptButton: 'Allow this category',
+      overlayInfoButton:   'More info',
+    },
+    classes: {
+      wrapper: '',
+      container: '',
+      element: '',
+      overlay: '',
+      overlayTitle: '',
+      overlayDescription: '',
+      overlayButtons: '',
+      overlayAcceptButton: '',
+      overlayInfoButton: '',
+    }
+  },
+};
+
+window.cmpHelper = (new ConcreteCmpHelper(config)).update();
+
+```
+![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *The JavaScript SDK has an active state, it will revert blocked elements attributes if the consent is withdrawn (readd decorations to element that have decoration, reload the resource if the consent is given again).*
+
 
 ---
 
@@ -303,6 +394,7 @@ Copyright (c) 2022 Marwan Al-Soltany. All rights reserved.
 [php-icon]: https://img.shields.io/badge/php-%3D%3C7.4-yellow?style=flat&logo=php
 [version-icon]: https://img.shields.io/packagist/v/marwanalsoltany/gdpr-tools.svg?style=flat&logo=packagist
 [downloads-icon]: https://img.shields.io/packagist/dt/marwanalsoltany/gdpr-tools.svg?style=flat&logo=packagist
+[github-downloads-icon]: https://img.shields.io/github/downloads/MarwanAlsoltany/gdpr-tools/total?logo=github&label=downloads
 [license-icon]: https://img.shields.io/badge/license-MIT-red.svg?style=flat&logo=github
 [maintenance-icon]: https://img.shields.io/badge/maintained-yes-orange.svg?style=flat&logo=github
 [documentation-icon]: https://img.shields.io/website-up-down-blue-red/http/marwanalsoltany.com/gdpr-tools.svg
@@ -314,6 +406,7 @@ Copyright (c) 2022 Marwan Al-Soltany. All rights reserved.
 [php-href]: https://github.com/MarwanAlsoltany/gdpr-tools/search?l=php
 [version-href]: https://packagist.org/packages/marwanalsoltany/gdpr-tools
 [downloads-href]: https://packagist.org/packages/marwanalsoltany/gdpr-tools/stats
+[github-downloads-href]: https://github.com/MarwanAlsoltany/gdpr-tools/releases
 [license-href]: ./LICENSE
 [maintenance-href]: https://github.com/MarwanAlsoltany/gdpr-tools/graphs/commit-activity
 [documentation-href]: https://marwanalsoltany.github.io/gdpr-tools
