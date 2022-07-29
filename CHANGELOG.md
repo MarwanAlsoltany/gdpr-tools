@@ -4,6 +4,16 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.2.1] - 2022-07-29](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.0...v1.2.1)
+- Update `AbstractCmpHelper` JS class:
+    - Fix typo in `config` variable (`config.decoration` -> `config.decorations`).
+- Recompile `cmp-helper.js.`.
+- Update `gdpr-tools.php`:
+    - Add return type-hints to helper functions.
+- General improvements, better documentation and CS fixes.
+
+<br />
+
 ## [[1.2.0] - 2022-07-28](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.1.0...v1.2.0)
 - Update `Sanitizer` class:
     - Make the class not final.
