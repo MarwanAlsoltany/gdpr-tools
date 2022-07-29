@@ -5,7 +5,12 @@ const mixPolyFill = require('laravel-mix-polyfill');
 const srcPath  = './src';
 const distPath = './dist';
 
-mix.options({ manifest: false });
+mix.options({
+  manifest: false,
+  terser: {
+    extractComments: false,
+  },
+});
 
 mix.setPublicPath(distPath);
 
