@@ -15,7 +15,8 @@
         <folder>latest</folder>
         <api>
             <source dsn=".">
-                <path>src</path>
+                <path>src/Backend/*</path>
+                <path>src/Package/*.config.php</path>
             </source>
             <output>api</output>
             <ignore hidden="true" symlinks="true">
