@@ -1,5 +1,7 @@
 <?php
 
+/** @package GDPRTools\Package */
+
 namespace MAKS\GDPRTools\Package;
 
 return [
@@ -26,21 +28,21 @@ return [
         'functions' => [
 
             // [required] (string) A JavaScript function as string to show the CMP dialog.
-            'showDialog' => <<<JS
+            'showDialog' => <<<'JS'
                 () => {
                     CookieObject.show();
                 }
             JS,
 
             // [required] (string) A JavaScript function as string to consent to the given category (function will be passed the category).
-            'consentTo' => <<<JS
+            'consentTo' => <<<'JS'
                 (category) => {
                     CookieObject.consentTo(category);
                 }
             JS,
 
             // [required] (string) A JavaScript function as string to check if a consent is given to the given category (function will be passed the category and must return a boolean).
-            'isConsentedTo' => <<<JS
+            'isConsentedTo' => <<<'JS'
                 (category) => {
                     CookieObject.isConsentedTo(category);
                 }
@@ -197,34 +199,34 @@ return [
         // [optional] (array|null) URIs to be used as replacements for sanitized resources.
         'uris' => [
 
-            // <link href="" [required] (string) /> "link" element temporary "href" value.
+            // [required] (string) <link href="" /> "link" element temporary "href" value.
             'link' => 'data:text/css;charset=UTF-8;base64,',
 
-            // <script src="" /> [required] (string) "script" element temporary "src" value.
+            // [required] (string) <script src="" /> "script" element temporary "src" value.
             'script' => 'data:text/javascript;charset=UTF-8;base64,',
 
-            // <iframe src="" /> [required] (string) "iframe" element temporary "src" value.
+            // [required] (string) <iframe src="" /> "iframe" element temporary "src" value.
             'iframe' => 'data:text/html;charset=UTF-8;base64,',
 
-            // <embed src="" /> [required] (string) "embed" element temporary "src" value.
+            // [required] (string) <embed src="" /> "embed" element temporary "src" value.
             'embed' => 'data:image/gif;charset=UTF-8;base64,',
 
-            // <img src="" /> [required] (string) "img" element temporary "src" value.
+            // [required] (string) <img src="" /> "img" element temporary "src" value.
             'img' => 'data:image/png;charset=UTF-8;base64,',
 
-            // <audio src="" /> [required] (string) "audio" element temporary "src" value.
+            // [required] (string) <audio src="" /> "audio" element temporary "src" value.
             'audio' => 'data:audio/mp3;charset=UTF-8;base64,',
 
-            // <video src="" /> [required] (string) "video" element temporary "src" value.
+            // [required] (string) <video src="" /> "video" element temporary "src" value.
             'video' => 'data:video/mp4;charset=UTF-8;base64,',
 
-            // <source src="" /> [required] (string) "source" element temporary "src" value.
+            // [required] (string) <source src="" /> "source" element temporary "src" value.
             'source' => 'data:audio/mpeg;charset=UTF-8;base64,',
 
-            // <track src="" /> [required] (string) "track" element temporary "src" value.
+            // [required] (string) <track src="" /> "track" element temporary "src" value.
             'track' => 'data:video/webm;charset=UTF-8;base64,',
 
-            // <object data="" /> [required] (string) "object" element temporary "data" value.
+            // [required] (string) <object data="" /> "object" element temporary "data" value.
             'object' => 'data:img/jpg;charset=UTF-8;base64,',
 
         ],
