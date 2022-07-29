@@ -1,6 +1,6 @@
 {
     "name": "marwanalsoltany/gdpr-tools",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "description": "Sanitize any PHP application HTML response to be GDPR compliant.",
     "keywords": [
