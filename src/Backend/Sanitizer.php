@@ -91,7 +91,7 @@ use function ob_get_level;
  * \MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $whitelist, $appends);
  * ```
  *
- * @package MAKS\GDPRTools\Backend
+ * @package GDPRTools\Backend
  * @since 1.0.0
  * @api
  */
@@ -182,7 +182,7 @@ class Sanitizer
     /**
      * The list of appends for each target.
      *
-     * @param array<string,array<string,array<string>|string>
+     * @param array<string,array<string,array<string>|string>>
      */
     private array $appends;
 
@@ -275,7 +275,7 @@ class Sanitizer
     /**
      * Sets the list of appends for each target.
      *
-     * @param array<string,array<string,array<string>|string> $appends The data to append.
+     * @param array<string,array<string,array<string>|string>> $appends The data to append.
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
      * @return static
@@ -368,7 +368,7 @@ class Sanitizer
      *      An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.
      * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
      *      Sub-domains must be specified separately.
-     * @param array<string,array<string,array<string>|string>|null $appends [optional] The data to append.
+     * @param array<string,array<string,array<string>|string>>|null $appends [optional] The data to append.
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
      * @return string The sanitized HTML code.
