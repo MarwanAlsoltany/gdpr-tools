@@ -155,13 +155,13 @@ class ConcreteCmpHelper extends AbstractCmpHelper {
 }
 
 const config = {
-  cookieName: 'cookie',
-  objectName: 'object',
-  updateEventName: 'event',
+  cookieName: 'CmpCookie',
+  objectName: 'CmpObject',
+  updateEventName: 'CmpObjectOnUpdate',
   functions: {
       showDialog: () => console.log('showDialog'),
-      consentTo: () => console.log('consentTo'),
-      isConsentedTo: () => console.log('isConsentedTo'),
+      consentTo: (category) => console.log('consentTo', category),
+      isConsentedTo: (category) => console.log('isConsentedTo', category),
     },
   settings: settings,
 };
