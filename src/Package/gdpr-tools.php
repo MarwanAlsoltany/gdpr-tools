@@ -5,6 +5,10 @@
  * @copyright Marwan Al-Soltany 2022
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
+ *
+ * @package GDPRTools\Package
+ * @since 1.2.0
+ * @internal
  */
 
 declare(strict_types=1);
@@ -19,7 +23,11 @@ require PHAR . '/../Backend/Sanitizer.php';
 
 use MAKS\GDPRTools\Backend\Sanitizer;
 
-if (!realpath($config = sprintf('%s%s%s.config.php', ROOT, DIRECTORY_SEPARATOR, NAME))) {
+if (!realpath($config = vsprintf('%s%s%s.config.php', [
+    ROOT,
+    DIRECTORY_SEPARATOR,
+    NAME
+]))) {
     die("GDPR-Tools config file '{$config}' not found!" . PHP_EOL);
 }
 
@@ -62,7 +70,7 @@ $whitelist  = getConfigValue($configuration, 'backend.whitelist', []);
 $appends    = getConfigValue($configuration, 'backend.appends', ['head' => [''], 'body' => ['']]);
 $attributes = getConfigValue($configuration, 'frontend.attributes', []);
 
-$appends['body']   = (array)$appends['body'];
+$appends['body']   = (array) $appends['body'];
 $appends['body'][] = $script;
 
 Sanitizer::$attributes = $attributes;
@@ -71,26 +79,26 @@ Sanitizer::sanitizeApp($entry, $condition, $uris, $whitelist, $appends);
 
 // helpers
 
-function getCmpHelperScript() {
+function getCmpHelperScript(): string {
     $script = file_get_contents(PHAR . '/../Frontend/dist/cmp-helper.js');
 
     return $script;
 }
 
-function getCmpHelperConfig(array $settings) {
+function getCmpHelperConfig(array $settings): string {
     $config = file_get_contents(PHAR . '/../Frontend/dist/cmp-helper.config.js');
     $config = str_replace('{config}', json_encode($settings, JSON_HEX_APOS | JSON_HEX_QUOT), $config);
 
     return $config;
 }
 
-function getCmpHelperFileScript(string $script) {
+function getCmpHelperFileScript(string $script): string {
     file_put_contents(ROOT . ($path = '/gdpr-tools.cmp-helper.js'), $script);
 
     return sprintf('<script id="gdpr-tools" src="%s"></script>', $path);
 }
 
-function getCmpHelperBase64Script(string $script) {
+function getCmpHelperBase64Script(string $script): string {
     return sprintf('<script id="gdpr-tools" src="data:text/javascript;charset=UTF-8;base64,%s"></script>', base64_encode($script));
 }
 
@@ -118,7 +126,7 @@ function getConfigValue(array $array, string $key, $default = null) {
     return $data[$key] ?? $default;
 }
 
-function getConfigValidations() {
+function getConfigValidations(): array {
     return [
         'entryPoint'               => fn ($value) => is_string($value) && realpath($value) || is_null($value) || die('GDPR-Tools config is invalid: "entryPoint" must be a string (path to a file) or null!'),
         'javascriptFile'           => fn ($value) => is_bool($value) || is_null($value) || die('GDPR-Tools config is invalid: "javascriptFile" must be a boolean or null!'),
