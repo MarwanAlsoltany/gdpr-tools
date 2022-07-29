@@ -712,7 +712,7 @@ const config = {
     ],
     unclassified: [],
   },
-  decoration: [
+  decorations: [
     HTMLIFrameElement,
     HTMLImageElement,
     HTMLEmbedElement,
@@ -722,21 +722,21 @@ const config = {
     HTMLObjectElement
   ],
   messages: {
-    overlayTitle: 'Content is being blocked due to insufficient Cookies configuration!',
-    overlayDescription: 'This content requires consent to the "{type}" cookies, to be viewed.',
+    overlayTitle:        'Content is being blocked due to insufficient Cookies configuration!',
+    overlayDescription:  'This content requires consent to the "{type}" cookies, to be viewed.',
     overlayAcceptButton: 'Allow this category',
-    overlayInfoButton: 'More info',
+    overlayInfoButton:   'More info',
   },
   classes: {
-    wrapper: '',
-    container: '',
-    element: '',
-    overlay: '',
-    overlayTitle: '',
-    overlayDescription: '',
-    overlayButtons: '',
+    wrapper:             '',
+    container:           '',
+    element:             '',
+    overlay:             '',
+    overlayTitle:        '',
+    overlayDescription:  '',
+    overlayButtons:      '',
     overlayAcceptButton: '',
-    overlayInfoButton: '',
+    overlayInfoButton:   '',
   }
 };
 
