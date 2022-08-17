@@ -1,6 +1,6 @@
 /**!
  * @author Marwan Al-Soltany <MarwanAlsoltany@gmail.com>
- * @copyright Marwan Al-Soltany 2020
+ * @copyright Marwan Al-Soltany 2022
  * @license MIT
  * @link https://github.com/MarwanAlsoltany/gdpr-tools
  */
