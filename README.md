@@ -89,9 +89,9 @@ Trying to block these resources in the client side using JavaScript **is not pos
 
 GDPR-Tools was created to solve that specific problem, make the HTML returned by the server side doesn't make any requests to any external resources (3rd-Party services) before user gives their consent in the client side. It does that by sanitizing all HTML elements that load external resources (scripts, stylesheets, images, etc.), the sanitization is done in the form of replacing the values of the attributes that load the resource with new values and setting the old values in `data-` attributes to be handled later in client side code.
 
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *~~GDPR-Tools takes currently care only of blocking requests to external resources.~~* *Starting from `v1.2.0`, GDPR-Tools can also block inline scripts. Actually, it can block/modify any attributes as long as it constructed how to do that.*
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *~~GDPR-Tools takes currently care only of blocking requests to external resources.~~* *Starting from `v1.2.0`, GDPR-Tools can also block inline scripts. Actually, it can block/modify any attributes as long as it constructed how to do that.*
 
-![#1e90ff](https://via.placeholder.com/11/1e90ff/000000?text=+) **Fact:** *~~GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.~~* *Starting from `v1.2.0`, GDPR-Tools also provides a client side [**SDK**](./src/Frontend/src) that can be integrated using simple config with any CMP.*
+![■](https://user-images.githubusercontent.com/7969982/182090858-f98dc83e-da1c-4f14-a538-8ac0a9bc43c3.png) **Fact:** *~~GDPR-Tools is not a plug-and-play solution, it takes care only of the server side part, you still have to implement of the client side part. See [**consent.js**](./src/Frontend/consent.js) to get started.~~* *Starting from `v1.2.0`, GDPR-Tools also provides a client side [**SDK**](./src/Frontend/src) that can be integrated using simple config with any CMP.*
 
 
 ---
@@ -177,7 +177,7 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
 ```
 
-![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *The `\MAKS\GDPRTools\Backend\Sanitizer` is well documented, check out the DocBlocks of its properties and methods to learn more.*
+![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class is well documented, check out the DocBlocks of its properties and methods to learn more.*
 
 1. The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
 
@@ -198,7 +198,7 @@ require './gdpr-tools.phar';
 
 ```
 
-![#32cd32](https://via.placeholder.com/11/32cd32/000000?text=+) **Advice:** *Check out the comments on [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php) fields, to learn more about the expected data-types.*
+![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *Check out the comments on [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php) fields, to learn more about the expected data-types.*
 
 ### What Elements are Sanitized?
 
@@ -369,7 +369,50 @@ const config = {
 window.cmpHelper = (new ConcreteCmpHelper(config)).update();
 
 ```
-![#ff6347](https://via.placeholder.com/11/f03c15/000000?text=+) **Note:** *The JavaScript SDK has an active state, it will revert blocked elements attributes if the consent is withdrawn (readd decorations to element that have decoration, reload the resource if the consent is given again).*
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *The JavaScript SDK has an active state, it will revert blocked elements attributes if the consent is withdrawn (readd decorations to element that have decoration and reload the resource if the consent is given again).*
+
+#### Extending The Frontend SDK
+
+The `*CmpHelper` classes expose some properties to access the currently blocked elements and other useful information.
+For example, the wrapper is always created for the current viewport to best match the actual size of the element. Resizing the viewport might make the layout broken as the wrapper is not automatically resized by default, to solve this issue, the following snippet can be used to resize the wrapper:
+
+```js
+
+window.addEventListener('resize', () => {
+    window.cmpHelper.elements.forEach(element => {
+        if (element.dataset.hasOwnProperty('consentDecorator')) {
+            // refresh the decoration
+            window.cmpHelper.undecorate(element);
+            window.cmpHelper.decorate(element);
+        }
+    })
+});
+
+```
+
+Also some useful events are fired throughout the life cycle of `*CmpHelper` classes to allow for hooking into them to perform some additional actions. For example, you may want to give a hint about the resource that is currently being blocked, the following snippet can be used to do that:
+
+```js
+
+window.addEventListener('CmpHelperElementOnDecorate', (event) => {
+    const services = {
+        'google': (url) => url.pathname.includes('/maps') ? 'Google Maps' : 'Google',
+        'youtube': (url) => 'YouTube',
+        // other services ...
+    };
+
+    const element    = event.detail.element;
+    const decoration = event.detail.decoration;
+    const url        = new URL(element.dataset.consentValue);
+    const service    = url.hostname.split('.').reverse().at(1); // domain without TLD
+    const owner      = services[service] ? services[service](url) : '"' + url.hostname + '"';
+
+    decoration.overlayTitle.innerText = decoration.overlayTitle.innerText.replace('Content', `Content of ${owner}`);
+});
+
+```
+
+![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`AbstractCmpHelper`](./src/Frontend/src/classes/AbstractCmpHelper.js) class is well documented, check out the DocBlocks of methods to learn more about the fired events (search for [`@fires`](./src/Frontend/src/classes/AbstractCmpHelper.js#:~:text=%40fires)).*
 
 
 ---
