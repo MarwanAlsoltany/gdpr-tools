@@ -4,6 +4,13 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.2.2] - 2022-08-17](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.1...v1.2.2)
+- No notable changes:
+    - Fix typos.
+    - Documentation improvements.
+
+<br />
+
 ## [[1.2.1] - 2022-07-29](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.0...v1.2.1)
 - Update `AbstractCmpHelper` JS class:
     - Fix typo in `config` variable (`config.decoration` -> `config.decorations`).
