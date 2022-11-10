@@ -101,7 +101,7 @@ GDPR-Tools was created to solve that specific problem, make the HTML returned by
 
 You can use GDPR-Tools in three ways:
 
-1. The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener. The following code snippet demonstrates a slimmed down version of how to do that:
+1) The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener. The following code snippet demonstrates a slimmed down version of how to do that:
 
 ```php
 
@@ -161,7 +161,7 @@ private function sanitizedContent(string $content): string
 
 ```
 
-1. The second way, is when you don't have the luxury of using some kind of an event. In this case, you can simply proxy app entry point by making a new entry point that points to the old entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it back to the client. The following code snippet demonstrates a slimmed down version of how to do that:
+2) The second way, is when you don't have the luxury of using some kind of an event. In this case, you can simply proxy app entry point by making a new entry point that points to the old entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it back to the client. The following code snippet demonstrates a slimmed down version of how to do that:
 ```php
 
 // first, you need to rename the application entry point to something else,
@@ -173,13 +173,14 @@ private function sanitizedContent(string $content): string
 include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
 // check out the `$condition`, `$uris`, `$whitelist`, and `$appends` variables from the previous example
+// you can also add `$prepends` (similar to `$appends`) and `$injections` (modes: 'prepend', 'append', 'before', 'after')
 \MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp('./app.php', $condition, $uris, $whitelist, $appends);
 
 ```
 
 ![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class is well documented, check out the DocBlocks of its properties and methods to learn more.*
 
-1. The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
+3) The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
 
 ```php
 
@@ -387,6 +388,9 @@ window.addEventListener('resize', () => {
         }
     })
 });
+
+// the following line may be needed depending on your case
+window.dispatchEvent(new Event('resize'));
 
 ```
 
