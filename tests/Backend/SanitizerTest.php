@@ -35,20 +35,25 @@ class SanitizerTest extends TestCase
 
     public function testSanitizerInterface()
     {
-        $data      = $this->getTestData();
-        $condition = $this->getTestCondition();
-        $uris      = $this->getTestURIs();
-        $whitelist = $this->getTestWhitelist();
-        $appends   = $this->getTestAppends();
+        $data       = $this->getTestData();
+        $condition  = $this->getTestCondition();
+        $uris       = $this->getTestURIs();
+        $whitelist  = $this->getTestWhitelist();
+        $appends    = $this->getTestAppends();
+        $prepends   = $this->getTestPrepends();
+        $injections = $this->getTestInjections();
 
         $html = $this->sanitizer
             ->setData($data)
             ->setCondition($condition)
             ->setURIs($uris)
             ->setWhitelist($whitelist)
+            ->prepend($prepends['head'], 'head')
             ->append($appends['head'], 'head')
             ->sanitize()
-            ->append($appends['body'][0], 'body')
+            ->prepend($prepends['body'], 'body')
+            ->append($appends['body'], 'body')
+            ->inject($injections['AFTER']['title'], 'title', 'AFTER')
             ->get();
 
         $this->assertIsString($html);
@@ -67,8 +72,11 @@ class SanitizerTest extends TestCase
         $this->assertStringContainsString($uris['link'], $html);
         $this->assertStringContainsString($uris['script'], $html);
         $this->assertStringContainsString($uris['iframe'], $html);
-        $this->assertStringContainsString('<script defer src="/path/to/client-side-code.js"></script></head>', $html);
-        $this->assertStringContainsString('<script defer src="/path/to/client-side-code.js"></script></body>', $html);
+        $this->assertStringContainsString('<head><script defer src="/path/to/prepend-code.js"></script>', $html);
+        $this->assertStringContainsString('<body><script defer src="/path/to/prepend-code.js"></script>', $html);
+        $this->assertStringContainsString('<script defer src="/path/to/append-code.js"></script></head>', $html);
+        $this->assertStringContainsString('<script defer src="/path/to/append-code.js"></script></body>', $html);
+        $this->assertStringContainsString('</title><script defer src="/path/to/injection-code.js"></script>', $html);
     }
 
     public function testSanitizerDataMethod()
@@ -78,8 +86,18 @@ class SanitizerTest extends TestCase
         $uris      = $this->getTestURIs();
         $whitelist = $this->getTestWhitelist();
         $appends   = $this->getTestAppends();
+        $prepends  = $this->getTestPrepends();
+        $injections = $this->getTestInjections();
 
-        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $whitelist, $appends);
+        $html = $this->sanitizer->sanitizeData(
+            $data,
+            $condition,
+            $uris,
+            $whitelist,
+            $appends,
+            $prepends,
+            $injections
+        );
 
         $this->assertIsString($html);
         $this->assertNotEquals($data, $html);
@@ -96,6 +114,8 @@ class SanitizerTest extends TestCase
         $uris      = $this->getTestURIs();
         $whitelist = $this->getTestWhitelist();
         $appends   = $this->getTestAppends();
+        $prepends  = $this->getTestPrepends();
+        $injections = $this->getTestInjections();
 
         Sanitizer::$attributes = [
             'data-consent-element' => 'data-gdpr-element',
@@ -105,7 +125,15 @@ class SanitizerTest extends TestCase
             'data-consent-original' => 'data-gdpr-original',
         ];
 
-        $html = $this->sanitizer->sanitizeData($data, $condition, $uris, $whitelist, $appends);
+        $html = $this->sanitizer->sanitizeData(
+            $data,
+            $condition,
+            $uris,
+            $whitelist,
+            $appends,
+            $prepends,
+            $injections
+        );
 
         $this->assertIsString($html);
         $this->assertNotEquals($data, $html);
@@ -184,9 +212,30 @@ HTML;
     private function getTestAppends(): array
     {
         return [
-            'head' => '<script defer src="/path/to/client-side-code.js"></script>',
+            'head' => '<script defer src="/path/to/append-code.js"></script>',
             'body' => [
-                '<script defer src="/path/to/client-side-code.js"></script>',
+                '<script defer src="/path/to/append-code.js"></script>',
+            ],
+        ];
+    }
+
+    private function getTestPrepends(): array
+    {
+        return [
+            'head' => '<script defer src="/path/to/prepend-code.js"></script>',
+            'body' => [
+                '<script defer src="/path/to/prepend-code.js"></script>',
+            ],
+        ];
+    }
+
+    private function getTestInjections(): array
+    {
+        return [
+            'AFTER' => [
+                'title' => [
+                    '<script defer src="/path/to/injection-code.js"></script>',
+                ]
             ],
         ];
     }
