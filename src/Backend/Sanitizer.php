@@ -12,15 +12,18 @@ declare(strict_types=1);
 namespace MAKS\GDPRTools\Backend;
 
 use function strtr;
-use function sprintf;
+use function key;
+use function current;
 use function array_keys;
 use function array_values;
+use function preg_quote;
 use function preg_replace;
 use function preg_replace_callback;
-use function preg_quote;
 use function ob_start;
 use function ob_flush;
+use function ob_end_flush;
 use function ob_get_level;
+use function flush;
 
 /**
  * A class that sanitizes HTML elements that automatically load external resources
@@ -128,6 +131,47 @@ class Sanitizer
         'object' => ['data'],
     ];
 
+    /**
+     * `PREPEND` injection mode.
+     *
+     * @var string
+     */
+    public const INJECTION_MODE_PREPEND = 'PREPEND';
+
+    /**
+     * `APPEND` injection mode.
+     *
+     * @var string
+     */
+    public const INJECTION_MODE_APPEND  = 'APPEND';
+
+    /**
+     * `BEFORE` injection mode.
+     *
+     * @var string
+     */
+    public const INJECTION_MODE_BEFORE  = 'BEFORE';
+
+    /**
+     * `AFTER` injection mode.
+     *
+     * @var string
+     */
+    public const INJECTION_MODE_AFTER   = 'AFTER';
+
+    /**
+     * Injection modes search and replacements.
+     *
+     * @var array
+     */
+    protected const INJECTION_MODES = [
+        // mode   => [search => replacement]
+        self::INJECTION_MODE_PREPEND => ['/(<\s*{target}[^>]*>)/i' => '$1{data}'],
+        self::INJECTION_MODE_APPEND  => ['/(<\/\s*{target}\s*>)/i' => '{data}$1'],
+        self::INJECTION_MODE_BEFORE  => ['/(<\s*{target}[^>]*>)/i' => '{data}$1'],
+        self::INJECTION_MODE_AFTER   => ['/(<\/\s*{target}\s*>)/i' => '$1{data}'],
+    ];
+
 
     /**
      * The overrides for the names of the attributes added after the sanitization.
@@ -183,8 +227,19 @@ class Sanitizer
      * The list of appends for each target.
      *
      * @param array<string,array<string,array<string>|string>>
+     *
+     * @since 1.2.0
      */
     private array $appends;
+
+    /**
+     * The list of prepends for each target.
+     *
+     * @param array<string,array<string,array<string>|string>>
+     *
+     * @since 1.3.0
+     */
+    private array $prepends;
 
 
     /**
@@ -197,6 +252,7 @@ class Sanitizer
         $this->uris      = [];
         $this->whitelist = [];
         $this->appends   = [];
+        $this->prepends  = [];
         $this->result    = '';
 
 
@@ -279,10 +335,29 @@ class Sanitizer
      *      An associative array where keys are the target to append to and values are a string or array of the data to append.
      *
      * @return static
+     *
+     * @since 1.2.0
      */
     public function setAppends(array $appends)
     {
         $this->appends = $appends;
+
+        return $this;
+    }
+
+    /**
+     * Sets the list of prepends for each target.
+     *
+     * @param array<string,array<string,array<string>|string>> $prepends The data to prepend.
+     *      An associative array where keys are the target to prepend in and values are a string or array of the data to prepend.
+     *
+     * @return static
+     *
+     * @since 1.3.0
+     */
+    public function setPrepends(array $prepends)
+    {
+        $this->prepends = $prepends;
 
         return $this;
     }
@@ -293,22 +368,65 @@ class Sanitizer
      *
      * NOTE: This method will append the data whether the data has changed (sanitized) or not.
      *
-     * @param string $data The data to append.
+     * @param string|array $data The data to inject, a string or an array of strings.
      * @param string $target [optional] The target to append to.
      *      It's advisable to only add to top-level elements (i.e. `<head>`, `<body>`).
+     *      The data will be appended to the first element only.
      *
      * @return static
+     *
+     * @since 1.2.0
      */
-    public function append(string $data, string $target = 'body')
+    public function append($data, string $target = 'body')
     {
-        $buffer = empty($this->result) ? 'data' : 'result';
-        $target = trim($target, '< />');
-        $target = preg_quote($target, '/');
-        $result = preg_replace(
-            sprintf('/(<\/\s*%s>)/i', $target),
-            sprintf('%s$1', $data),
-            $this->{$buffer}
-        );
+        return $this->inject($data, $target, static::INJECTION_MODE_APPEND);
+    }
+
+    /**
+     * Prepends some data in the current data/result.
+     * This method is useful to add some `<script>` or `<link>` to the `<head>` and/or `<body>` elements.
+     *
+     * NOTE: This method will prepend the data whether the data has changed (sanitized) or not.
+     *
+     * @param string|array $data The data to inject, a string or an array of strings.
+     * @param string $target [optional] The target to prepend in.
+     *      It's advisable to only add to top-level elements (i.e. `<head>`, `<body>`).
+     *      The data will be prepended in the first element only.
+     *
+     * @return static
+     *
+     * @since 1.3.0
+     */
+    public function prepend($data, string $target = 'head')
+    {
+        return $this->inject($data, $target, static::INJECTION_MODE_PREPEND);
+    }
+
+    /**
+     * Injects data around or into an element (modes: `PREPEND`, `APPEND`, `BEFORE`, `AFTER`).
+     *
+     * @param string|array $data The data to inject, a string or an array of strings.
+     * @param string $target The target to inject in.
+     *      It's advisable to only use top-level and unique elements (i.e. `<head>`, `<body>`).
+     *      The data will be injected in or around the first element only.
+     * @param string $mode The mode of injection.
+     *      One of `PREPEND`, `APPEND`, `BEFORE`, or `AFTER` (defaults and falls back to `APPEND`).
+     *
+     * @return static
+     *
+     * @since 1.3.0
+     */
+    public function inject($data, string $target, string $mode = self::INJECTION_MODE_APPEND)
+    {
+        $default = static::INJECTION_MODES[static::INJECTION_MODE_APPEND];
+        $mode    = static::INJECTION_MODES[strtoupper($mode)] ?? $default;
+
+        $buffer  = empty($this->result) ? 'data' : 'result';
+        $data    = implode(' ', (array)$data);
+        $target  = preg_quote(trim($target, '< />'), '/');
+        $search  = strtr(key($mode), ['{target}' => $target]);
+        $replace = strtr(current($mode), ['{data}' => $data]);
+        $result  = preg_replace($search, $replace, $this->{$buffer}, 1);
 
         $this->{$buffer} = $result ?? $this->{$buffer};
 
