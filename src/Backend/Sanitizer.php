@@ -162,7 +162,7 @@ class Sanitizer
     /**
      * Injection modes search and replacements.
      *
-     * @var array
+     * @var string
      */
     protected const INJECTION_MODES = [
         // mode   => [search => replacement]
@@ -487,7 +487,11 @@ class Sanitizer
      * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
      *      Sub-domains must be specified separately.
      * @param array<string,array<string,array<string>|string>>|null $appends [optional] The data to append.
-     *      An associative array where keys are the target to append to and values are a string or array of the data to append.
+     *      An associative array where keys are the targets to append to and values are a string or an array of strings of the data to append.
+     * @param array<string,array<string,array<string>|string>>|null $prepends [optional] The data to prepend.
+     *      An associative array where keys are the targets to prepend to and values are a string or an array of strings of the data to prepend.
+     * @param array<string,array<string,array<string>|string>>|null $injections [optional] The data to inject.
+     *      An associative array where keys are the modes values are the sames as `$prepends` or `$appends`.
      *
      * @return string The sanitized HTML code.
      */
@@ -496,7 +500,9 @@ class Sanitizer
         ?callable $condition = null,
         ?array $uris = null,
         ?array $whitelist = null,
-        ?array $appends = null
+        ?array $appends = null,
+        ?array $prepends = null,
+        ?array $injections = null
     ): string {
         $this->setData($data);
 
@@ -516,11 +522,23 @@ class Sanitizer
             $this->setAppends($appends);
         }
 
+        if (!empty($prepends)) {
+            $this->setPrepends($prepends);
+        }
+
         $this->sanitize();
 
-        foreach ($this->appends as $target => $data) {
-            $data = implode(' ', (array)$data);
-            $this->append($data, $target);
+        $injections = array_merge_recursive([
+            self::INJECTION_MODE_PREPEND => $this->prepends,
+            self::INJECTION_MODE_APPEND  => $this->appends,
+            self::INJECTION_MODE_BEFORE  => [],
+            self::INJECTION_MODE_AFTER   => [],
+        ], (array)$injections);
+
+        foreach ($injections as $mode => $targets) {
+            foreach ($targets as $target => $data) {
+                $this->inject($data, $target, $mode);
+            }
         }
 
         return $this->get();
@@ -532,7 +550,7 @@ class Sanitizer
      * NOTE: This method should be the last step in the application
      *      as it will flush all opened buffers to the client.
      *
-     * @param string $data The HTML code to sanitize.
+     * @param string $path The path to app entry point (`index.php`).
      * @param callable|null $condition [optional] The condition to check before sanitizing.
      *      The passed callback will be executed when calling `self::sanitize()` to check if the data should be sanitized.
      *      The callback will be passed the data and must return a boolean (signature: `fn (string $data): bool`).
@@ -541,27 +559,35 @@ class Sanitizer
      *      An associative array where keys are element names and values are the URIs (base64 encoded data) or normal URLs.
      * @param array<int,string>|null $whitelist An array of domains that should not be sanitized.
      *      Sub-domains must be specified separately.
-     * @param array<string,array|string>|null $appends [optional] The data to append.
-     *      An associative array where keys are the target to append to and values are a string or array of the data to append.
+     * @param array<string,array<string,array<string>|string>>|null $appends [optional] The data to append.
+     *      An associative array where keys are the targets to append to and values are a string or an array of strings of the data to append.
+     * @param array<string,array<string,array<string>|string>>|null $prepends [optional] The data to prepend.
+     *      An associative array where keys are the targets to prepend to and values are a string or an array of strings of the data to prepend.
+     * @param array<string,array<string,array<string>|string>>|null $injections [optional] The data to inject.
+     *      An associative array where keys are the modes values are the sames as `$prepends` or `$appends`.
      *
      * @return void The buffer will simply be flushed to the client.
      *
-     * @codeCoverageIgnore This method can be tested as it flushes all opened buffer.
+     * @codeCoverageIgnore This method is tested manually as it flushes all opened buffers.
      */
     public static function sanitizeApp(
         string $path,
         ?callable $condition = null,
         ?array $uris = null,
         ?array $whitelist = null,
-        ?array $appends = null
+        ?array $appends = null,
+        ?array $prepends = null,
+        ?array $injections = null
     ): void {
-        ob_start(function ($data) use ($condition, $uris, $whitelist, $appends) {
+        ob_start(function ($data) use ($condition, $uris, $whitelist, $appends, $prepends, $injections) {
             return (new static())->sanitizeData(
                 $data,
                 $condition,
                 $uris,
                 $whitelist,
-                $appends
+                $appends,
+                $prepends,
+                $injections
             );
         });
 
@@ -599,7 +625,7 @@ class Sanitizer
         $uris = [];
 
         foreach (self::ELEMENTS as $element => $attributes) {
-            $uris[$element] = $this->uris[$element] ?? 'data:text/plain;base64,';
+            $uris[$element] = $this->uris[$element] ?? 'data:text/plain;base64,IA==';
         }
 
         return $uris;
@@ -674,7 +700,7 @@ class Sanitizer
             '{element}'   => $matches['element'],
             '{attribute}' => $matches['attribute'],
             '{value}'     => $matches['value'],
-            '{uri}'       => $uris[$matches['element']],
+            '{uri}'       => $uris[$matches['element']] ?? '',
         ]);
     }
 }
