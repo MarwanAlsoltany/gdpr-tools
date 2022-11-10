@@ -4,6 +4,37 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.3.0] - 2022-11-10](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.2...v1.3.0)
+> NOTE: This update should be fully backwards compatible. Attention may be required for projects using `gdpr-tools.phar`, as the way how the Frontend SDK is added to the document has been changed. It used to be appended to the `<body />` element. Starting from `v1.3.0` it will be inserted directly AFTER the `<title />` element to make sure it is the first script added to the document. The major change was introduced as some CMPs were prevent GDPR-Tools Frontend SDK from executing using the `beforescriptexecute` event. People using GDPR-Tools as a dependency via Composer shouldn't experience and change in behavior. 
+- Update `Sanitizer` class:
+    - Add `INJECTION_MODE_*` class constants:
+        - `INJECTION_MODE_PREPEND`
+        - `INJECTION_MODE_APPEND`
+        - `INJECTION_MODE_BEFORE`
+        - `INJECTION_MODE_AFTER`
+    - Add `INJECTION_MODES` class constant
+    - Add `inject()` method to simplify DOM manipulation.
+    - Add `$prepends` property.
+    - Add `setPrepends()` method.
+    - Add `prepend()` method.
+    - Update `append()` method to make use of `inject()` method.
+- Update `Sanitizer` class:
+    - Update `sanitizeData()` method to add new parameters `$prepends` and `$injections`.
+    - Update `sanitizeApp()` method to add new parameters `$prepends` and `$injections`.
+    - Update `getURIs()` method.
+    - Update `getReplaceCallback()` method.
+- Update `gdpr-tools.config.php`:
+    - Add new config fields `prepends` and `injections`.
+- Update `gdpr-tools.php`.
+    - Make use of the newly created config fields (`prepends` and `injections`).
+- Update `cmp-helper.config.js`:
+    - Initialize `ConcreteCmpHelper` after document load.
+    - Log some info GDPR-Tools in the console.
+- Update tests:
+    - Update `SanitizerTest` class.
+
+<br />
+
 ## [[1.2.2] - 2022-08-17](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.1...v1.2.2)
 - No notable changes:
     - Fix typos.
@@ -14,7 +45,7 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 ## [[1.2.1] - 2022-07-29](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.0...v1.2.1)
 - Update `AbstractCmpHelper` JS class:
     - Fix typo in `config` variable (`config.decoration` -> `config.decorations`).
-- Recompile `cmp-helper.js.`.
+- Recompile `cmp-helper.js`.
 - Update `gdpr-tools.php`:
     - Add return type-hints to helper functions.
 - General improvements, better documentation and CS fixes.
