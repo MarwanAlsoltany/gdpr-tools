@@ -68,16 +68,30 @@ $condition  = getConfigValue($configuration, 'backend.condition', fn ($data) => 
 $uris       = getConfigValue($configuration, 'backend.uris', []);
 $whitelist  = getConfigValue($configuration, 'backend.whitelist', []);
 $appends    = getConfigValue($configuration, 'backend.appends', ['head' => [''], 'body' => ['']]);
+$prepends   = getConfigValue($configuration, 'backend.prepends', ['head' => [''], 'body' => ['']]);
+$injections = getConfigValue($configuration, 'backend.injections', ['PREPEND' => [], 'APPEND' => [], 'BEFORE' => [], 'AFTER' => ['title' => ['']]]);
 $attributes = getConfigValue($configuration, 'frontend.attributes', []);
 
-$appends['body']   = (array) $appends['body'];
-$appends['body'][] = $script;
+// we try to insert GDPR-Tools Frontend SDK before any other script, as some CMPs
+// use the 'beforescriptexecute' event to block it if it was added after them.
+// we insert it after the <title /> expecting it to be before any <script /> element.
+$injections['AFTER']['title']   = (array)$injections['AFTER']['title'];
+$injections['AFTER']['title'][] = $script;
 
 Sanitizer::$attributes = $attributes;
-Sanitizer::sanitizeApp($entry, $condition, $uris, $whitelist, $appends);
+Sanitizer::sanitizeApp($entry, $condition, $uris, $whitelist, $appends, $prepends, $injections);
 
 
 // helpers
+
+function getCacheId(): string {
+    // trigger cache busting for any change within library source
+    return md5(
+        strval(filemtime(PHAR . '/../Backend')) .
+        strval(filemtime(PHAR . '/../Frontend')) .
+        strval(filemtime(PHAR . '/../Package'))
+    );
+}
 
 function getCmpHelperScript(): string {
     $script = file_get_contents(PHAR . '/../Frontend/dist/cmp-helper.js');
@@ -95,11 +109,11 @@ function getCmpHelperConfig(array $settings): string {
 function getCmpHelperFileScript(string $script): string {
     file_put_contents(ROOT . ($path = '/gdpr-tools.cmp-helper.js'), $script);
 
-    return sprintf('<script id="gdpr-tools" src="%s"></script>', $path);
+    return sprintf('<script id="gdpr-tools" type="text/javascript" src="%s?cid=%s"></script>', $path, getCacheId());
 }
 
 function getCmpHelperBase64Script(string $script): string {
-    return sprintf('<script id="gdpr-tools" src="data:text/javascript;charset=UTF-8;base64,%s"></script>', base64_encode($script));
+    return sprintf('<script id="gdpr-tools" type="text/javascript" src="data:text/javascript;charset=UTF-8;base64,%s"></script>', base64_encode($script));
 }
 
 function getConfigValue(array $array, string $key, $default = null) {
@@ -144,5 +158,7 @@ function getConfigValidations(): array {
         'backend.whitelist'        => fn ($data) => is_array($data) || is_null($data) || die('GDPR-Tools config is invalid: "backend.whitelist" must be an array or null!'),
         'backend.uris'             => fn ($data) => is_array($data) || is_null($data) || die('GDPR-Tools config is invalid: "backend.uris" must be an array or null!'),
         'backend.appends'          => fn ($data) => is_array($data) || is_null($data) || die('GDPR-Tools config is invalid: "backend.appends" must be an array or null!'),
+        'backend.prepends'         => fn ($data) => is_array($data) || is_null($data) || die('GDPR-Tools config is invalid: "backend.prepends" must be an array or null!'),
+        'backend.injections'       => fn ($data) => is_array($data) || is_null($data) || die('GDPR-Tools config is invalid: "backend.prepends" must be an array or null!'),
     ];
 }
