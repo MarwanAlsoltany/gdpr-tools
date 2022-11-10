@@ -246,6 +246,59 @@ return [
 
         ],
 
+        // [optional] (array|null) HTML prepends to the final sanitized response.
+        'prepends' => [
+
+            // [optional] (array|string) HTML to prepend in the <head> element.
+            'head' => [
+                // '<link rel="stylesheet" href="/path/to/style.css" />',
+            ],
+
+            // [optional] (array|string) HTML to prepend in the <body> element.
+            'body' => [
+                // '<script src="/path/to/script.js"></script>',
+            ],
+
+        ],
+
+        // [optional] (array|null) HTML injections to the final sanitized response.
+        'injections' => [
+
+            // [optional] (array) HTML injections that should be prepended.
+            'PREPEND' => [
+                // [optional] (array|string) HTML to prepend in the <head> element.
+                'head' => [
+                    // '<link rel="stylesheet" href="/path/to/style.css" />',
+                ],
+            ],
+
+            // [optional] (array) HTML injections that should be appended.
+            'APPEND' => [
+                // [optional] (array|string) HTML to prepend in the <body> element.
+                'body' => [
+                    // '<script src="/path/to/script.js"></script>',
+                ],
+            ],
+
+            // [optional] (array) HTML injections that should be inserted before.
+            'BEFORE' => [
+                // [optional] (array|string) HTML to prepend in the <title> element.
+                'title' => [
+                    // '<link rel="stylesheet" href="/path/to/style.css" />',
+                ],
+            ],
+
+            // [optional] (array) HTML injections that should be inserted after.
+            'AFTER' => [
+                // [optional] (array|string) HTML to prepend in the <title> element.
+                'title' => [
+                    // '<script src="/path/to/script.js"></script>',
+                ],
+
+            ],
+
+        ],
+
     ],
 
 ];
