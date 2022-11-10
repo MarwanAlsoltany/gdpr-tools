@@ -41,10 +41,25 @@ Search.appendIndex(
             "summary": "Sets\u0020the\u0020list\u0020of\u0020appends\u0020for\u0020each\u0020target.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setAppends"
         },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AsetPrepends\u0028\u0029",
+            "name": "setPrepends",
+            "summary": "Sets\u0020the\u0020list\u0020of\u0020prepends\u0020for\u0020each\u0020target.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setPrepends"
+        },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Aappend\u0028\u0029",
             "name": "append",
             "summary": "Appends\u0020some\u0020data\u0020to\u0020the\u0020current\u0020data\/result.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_append"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Aprepend\u0028\u0029",
+            "name": "prepend",
+            "summary": "Prepends\u0020some\u0020data\u0020in\u0020the\u0020current\u0020data\/result.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_prepend"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Ainject\u0028\u0029",
+            "name": "inject",
+            "summary": "Injects\u0020data\u0020around\u0020or\u0020into\u0020an\u0020element\u0020\u0028modes\u003A\u0020\u0060PREPEND\u0060,\u0020\u0060APPEND\u0060,\u0020\u0060BEFORE\u0060,\u0020\u0060AFTER\u0060\u0029.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_inject"
         },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003Asanitize\u0028\u0029",
             "name": "sanitize",
@@ -91,6 +106,31 @@ Search.appendIndex(
             "summary": "HTML\u0020elements\u0020that\u0020load\u0020external\u0020resources.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_ELEMENTS"
         },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AINJECTION_MODE_PREPEND",
+            "name": "INJECTION_MODE_PREPEND",
+            "summary": "\u0060PREPEND\u0060\u0020injection\u0020mode.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_PREPEND"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AINJECTION_MODE_APPEND",
+            "name": "INJECTION_MODE_APPEND",
+            "summary": "\u0060APPEND\u0060\u0020injection\u0020mode.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_APPEND"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AINJECTION_MODE_BEFORE",
+            "name": "INJECTION_MODE_BEFORE",
+            "summary": "\u0060BEFORE\u0060\u0020injection\u0020mode.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_BEFORE"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AINJECTION_MODE_AFTER",
+            "name": "INJECTION_MODE_AFTER",
+            "summary": "\u0060AFTER\u0060\u0020injection\u0020mode.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_AFTER"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AINJECTION_MODES",
+            "name": "INJECTION_MODES",
+            "summary": "Injection\u0020modes\u0020search\u0020and\u0020replacements.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODES"
+        },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024attributes",
             "name": "attributes",
             "summary": "The\u0020overrides\u0020for\u0020the\u0020names\u0020of\u0020the\u0020attributes\u0020added\u0020after\u0020the\u0020sanitization.",
@@ -125,6 +165,11 @@ Search.appendIndex(
             "name": "appends",
             "summary": "The\u0020list\u0020of\u0020appends\u0020for\u0020each\u0020target.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_appends"
+        },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A\u0024prepends",
+            "name": "prepends",
+            "summary": "The\u0020list\u0020of\u0020prepends\u0020for\u0020each\u0020target.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_prepends"
         },                {
             "fqsen": "\\",
             "name": "\\",
