@@ -228,6 +228,7 @@ class AbstractCmpHelper {
     }
 
     window.addEventListener(event, this.update.bind(this));
+    window.addEventListener('resize', this.refresh.bind(this));
     document.addEventListener('DOMContentLoaded', this.update.bind(this));
 
     return this;
@@ -303,6 +304,27 @@ class AbstractCmpHelper {
     return this;
   };
 
+  refresh() {
+    let elements = [];
+
+    window.requestAnimationFrame(() => {
+      this.elements.forEach((element) => {
+        if (element.dataset.hasOwnProperty(this.#getDatasetName('decorator'))) {
+          if (this.undecorate(element) && this.decorate(element)) {
+            elements.push(element);
+          }
+        }
+      });
+    });
+
+    window.dispatchEvent(new CustomEvent('CmpHelperElementsOnRefresh', {
+      bubbles: true,
+      detail: { elements }
+    }));
+
+    return this;
+  };
+
   /**
    * @param {HTMLElement} element
    * @returns {boolean}
@@ -339,7 +361,7 @@ class AbstractCmpHelper {
       detail: { element }
     }));
 
-    if (this.decorations.some(HTMLElementType => element instanceof HTMLElementType)) {
+    if (this.#isDecoratable(element)) {
       return this.undecorate(element);
     }
 
@@ -366,7 +388,7 @@ class AbstractCmpHelper {
       detail: { element }
     }));
 
-    if (this.decorations.some(HTMLElementType => element instanceof HTMLElementType)) {
+    if (this.#isDecoratable(element)) {
       return this.decorate(element);
     }
 
@@ -469,6 +491,16 @@ class AbstractCmpHelper {
 
     return true;
   };
+
+  #isDecoratable(element) {
+    return (
+      // if the element is any of the types that should be decorated
+      this.decorations.some(HTMLElementType => element instanceof HTMLElementType) ||
+      // if the element teleports decoration on another element
+      element.dataset.hasOwnProperty(this.#getDatasetName('decorates'))
+      // we determine also later whether to decorate or not depending on element visibility
+    )
+  }
 
   /**
    * @param {HTMLElement} element
@@ -628,7 +660,7 @@ class AbstractCmpHelper {
   /**
    * @returns {AbstractCmpHelper}
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnUpdate
+   * @fires AbstractCmpHelper#CmpHelperOnUpdate
    *
    * @public
    */
@@ -646,7 +678,7 @@ class AbstractCmpHelper {
         }
       });
 
-    window.dispatchEvent(new CustomEvent('CmpHelperElementOnUpdate', {
+    window.dispatchEvent(new CustomEvent('CmpHelperOnUpdate', {
       bubbles: true,
       detail: { object: this }
     }));
