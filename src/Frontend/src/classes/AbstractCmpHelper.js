@@ -56,6 +56,7 @@ class AbstractCmpHelper {
     'data-consent-original-data':   'data-consent-original-data',
     // GDPR-Tools frontend specific attributes
     'data-consent-category':        'data-consent-category',
+    'data-consent-decorates':       'data-consent-decorates',
     'data-consent-decorator':       'data-consent-decorator',
     'data-consent-evaluated':       'data-consent-evaluated',
   };
@@ -101,8 +102,8 @@ class AbstractCmpHelper {
    * @public
    */
   messages = {
-    overlayTitle: 'Content is being blocked due to insufficient Cookies configuration!',
-    overlayDescription: 'This content requires consent to the "{type}" cookies, to be viewed.',
+    overlayTitle: 'Content of "{service}" is being blocked due to insufficient Cookies configuration!',
+    overlayDescription: 'This content requires consent to the "{type}" Cookies, to be viewed.',
     overlayAcceptButton: 'Allow this category',
     overlayInfoButton: 'More info',
   };
@@ -389,17 +390,27 @@ class AbstractCmpHelper {
       return false;
     }
 
-    const decoration = this.#createDecoration(element);
+    let decoratable = element;
+
+    if (element.dataset.hasOwnProperty([this.#getDatasetName('decorates')]) === true) {
+      decoratable = document.querySelector(element.dataset[this.#getDatasetName('decorates')]) ?? element;
+    }
+
+    if (!decoratable || window.getComputedStyle(decoratable)['display'] === 'none') {
+      return false;
+    }
+
+    const decoration = this.#createDecoration(element, decoratable);
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnDecorate', {
       bubbles: true,
-      detail: { element, decoration }
+      detail: { element, decoratable, decoration }
     }));
 
     element.dataset[this.#getDatasetName('decorator')] = decoration.wrapper.id;
-    element.parentNode.insertBefore(decoration.wrapper, element);
+    element.parentNode.insertBefore(decoration.wrapper, decoratable);
 
-    decoration.element.appendChild(element);
+    decoration.element.appendChild(decoratable);
 
     decoration.overlayAcceptButton.addEventListener('click', event => {
       event.preventDefault();
@@ -434,16 +445,26 @@ class AbstractCmpHelper {
       return false;
     }
 
+    let decoratable = element;
+
+    if (element.dataset.hasOwnProperty([this.#getDatasetName('decorates')]) === true) {
+      decoratable = document.querySelector(element.dataset[this.#getDatasetName('decorates')]) ?? element;
+    }
+
+    if (!decoratable || window.getComputedStyle(decoratable)['display'] === 'none') {
+      return false;
+    }
+
     const decoration = document.getElementById(element.dataset[this.#getDatasetName('decorator')]);
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnUndecorate', {
       bubbles: true,
-      detail: { element, decoration }
+      detail: { element, decoratable, decoration }
     }));
 
     element.removeAttribute(this.attributes['data-consent-decorator']);
 
-    decoration?.parentNode.insertBefore(element, decoration);
+    decoration?.parentNode.insertBefore(decoratable, decoration);
     decoration?.remove();
 
     return true;
@@ -455,27 +476,36 @@ class AbstractCmpHelper {
    *
    * @public
    */
-  #createDecoration(element) {
-    const identifier = 'cmp-helper-consent-element-'.concat(Math.random().toString(36).toUpperCase().substring(2));
+  #createDecoration(element, decoratable) {
+    decoratable = decoratable ? decoratable : element;
+
+    const identifier =
+      `cmp-helper-consent-element-${Math.random().toString(36).toUpperCase().substring(2)}`;
+    const classes =
+      `cmp-helper-consent-wrapper ` +
+      `cmp-helper-consent-${decoratable.tagName.toLowerCase()}-wrapper ` +
+      `cmp-helper-consent-${element.tagName.toLowerCase()}-successor`;
 
     const template = (new DOMParser())
       .parseFromString(`
-        <div id="${identifier}" class="cmp-helper-consent-wrapper cmp-helper-consent-${element.tagName.toLowerCase()}-wrapper">
+        <div id="${identifier}" class="${classes}">
           <div class="cmp-helper-consent-container">
             <div class="cmp-helper-consent-element" hidden></div>
             <div class="cmp-helper-consent-overlay">
-              <div class="cmp-helper-consent-overlay-title">${this.messages.overlayTitle}</div>
+              <div class="cmp-helper-consent-overlay-title">
+                ${this.messages.overlayTitle.replace(/(\{\s*(service|name)\s*\})/ig, this.#getElementServiceName(element))}
+              </div>
               <div class="cmp-helper-consent-overlay-description">
-                ${this.messages.overlayDescription.replace(
-                  '{type}',
-                  element.dataset[this.#getDatasetName('category')].charAt(0).toUpperCase() +
-                  element.dataset[this.#getDatasetName('category')].slice(1).toLowerCase()
-                )}
+                ${this.messages.overlayDescription.replace(/(\{\s*(category|type)\s*\})/ig, this.#getElementCategoryName(element))}
               </div>
               <div class="cmp-helper-consent-overlay-buttons">
-                <a class="cmp-helper-consent-overlay-accept-button" href="javascript:void(0);">${this.messages.overlayAcceptButton}</a>
+                <a class="cmp-helper-consent-overlay-accept-button" href="javascript:void(0);">
+                  ${this.messages.overlayAcceptButton}
+                </a>
                 &nbsp;
-                <a class="cmp-helper-consent-overlay-info-button" href="javascript:void(0);">${this.messages.overlayInfoButton}</a>
+                <a class="cmp-helper-consent-overlay-info-button" href="javascript:void(0);">
+                  ${this.messages.overlayInfoButton}
+                </a>
               </div>
             </div>
           </div>
@@ -516,6 +546,29 @@ class AbstractCmpHelper {
     }
 
     return decoration;
+  }
+
+  #getElementServiceName(element) {
+    const attribute = this.#getDatasetName('value');
+
+    let service = 'Service';
+
+    try {
+      service = (new URL(element.dataset[attribute])).hostname;
+    } catch {
+      service = element.tagName.charAt(0).toUpperCase().concat(element.tagName.slice(1).toLowerCase());
+    }
+
+    return service;
+  }
+
+  #getElementCategoryName(element) {
+    const attribute = this.#getDatasetName('category');
+
+    return (
+      element.dataset[attribute].charAt(0).toUpperCase() +
+      element.dataset[attribute].slice(1).toLowerCase()
+    );
   }
 
   /**
@@ -683,6 +736,7 @@ const config = {
     'data-consent-original-data':   'data-consent-original-data',
     // GDPR-Tools frontend specific attributes
     'data-consent-category':        'data-consent-category',
+    'data-consent-decorates':       'data-consent-decorates',
     'data-consent-decorator':       'data-consent-decorator',
     'data-consent-evaluated':       'data-consent-evaluated',
   },
@@ -722,8 +776,8 @@ const config = {
     HTMLObjectElement
   ],
   messages: {
-    overlayTitle:        'Content is being blocked due to insufficient Cookies configuration!',
-    overlayDescription:  'This content requires consent to the "{type}" cookies, to be viewed.',
+    overlayTitle:        'Content of "{service}" is being blocked due to insufficient Cookies configuration!',
+    overlayDescription:  'This content requires consent to the "{type}" Cookies, to be viewed.',
     overlayAcceptButton: 'Allow this category',
     overlayInfoButton:   'More info',
   },
