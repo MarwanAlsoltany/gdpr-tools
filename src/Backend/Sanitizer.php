@@ -101,6 +101,15 @@ use function flush;
 class Sanitizer
 {
     /**
+     * Package version.
+     *
+     * @var string
+     *
+     * @since 1.4.0
+     */
+    public const VERSION = 'v1.4.0';
+
+    /**
      * HTML elements that load external resources.
      *
      * Available elements are:
