@@ -4,6 +4,27 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.4.0] - 2022-11-21](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.3.0...v1.4.0)
+- Update `AbstractCmpHelper` class:
+    - Add new attribute `data-consent-decorates` to allow for teleporting element decoration elsewhere on the DOM.
+    - Add `refresh()` method.
+    - Add `getElementServiceName()` method.
+    - Add `getElementCategoryName()` method.
+    - Add `isDecoratable()` method.
+    - Update `constructor()` method to listen on window resize to update overlay views.
+    - Update `activate()` method to make use of `isDecoratable()`.
+    - Update `deactivate()` method to make use of `isDecoratable()`.
+    - Update `update()` method to change dispatched event name from `CmpHelperElementOnUpdate` to `CmpHelperOnUpdate`.
+    - Update `decorate()` method to make use of `data-consent-decorates` attributes.
+    - Update `undecorate()` method to make use of `data-consent-decorates` attributes.
+    - Update `createDecoration()` method.
+    - Fix properties and methods DocBlocks.
+- Update `gdpr-tools.php`:
+    - Make injected script always the first script.
+- Recompile `cmp-helper.js`.
+
+<br />
+
 ## [[1.3.0] - 2022-11-10](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.2...v1.3.0)
 > NOTE: This update should be fully backwards compatible. Attention may be required for projects using `gdpr-tools.phar`, as the way how the Frontend SDK is added to the document has been changed. It used to be appended to the `<body />` element. Starting from `v1.3.0` it will be inserted directly AFTER the `<title />` element to make sure it is the first script added to the document. The major change was introduced as some CMPs were prevent GDPR-Tools Frontend SDK from executing using the `beforescriptexecute` event. People using GDPR-Tools as a dependency via Composer shouldn't experience and change in behavior. 
 - Update `Sanitizer` class:
