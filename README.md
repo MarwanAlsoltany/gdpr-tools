@@ -101,7 +101,9 @@ GDPR-Tools was created to solve that specific problem, make the HTML returned by
 
 You can use GDPR-Tools in three ways:
 
-1) The first and the recommended way is to listen to some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener. The following code snippet demonstrates a slimmed down version of how to do that:
+### 1) Using Some App Life-Cycle Event.
+
+The first and the recommended way is to listen on some event that fires before sending the response back to the client. For example in a Symfony application, this would be the `kernel.response` event. Note that you have to make sure that GDPR-Tools listener is the last listener. The following code snippet demonstrates a slimmed down version of how to do that:
 
 ```php
 
@@ -161,7 +163,10 @@ private function sanitizedContent(string $content): string
 
 ```
 
-2) The second way, is when you don't have the luxury of using some kind of an event. In this case, you can simply proxy app entry point by making a new entry point that points to the old entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it back to the client. The following code snippet demonstrates a slimmed down version of how to do that:
+### 2) Using a Custom Proxy for App Entry
+
+The second way, is when you don't have the luxury of using events. In this case, you can simply proxy app entry point by making a new entry point that points to the old entry and makes use of `MAKS\GDPRTools\Backend\Sanitizer::sanitizeApp()` to sanitize the response before sending it back to the client. The following code snippet demonstrates a slimmed down version of how to do that:
+
 ```php
 
 // first, you need to rename the application entry point to something else,
@@ -180,7 +185,9 @@ include '/path/to/gdpr-tools/src/Backend/Sanitizer.php';
 
 ![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`\MAKS\GDPRTools\Backend\Sanitizer`](./src/Backend/Sanitizer.php) class is well documented, check out the DocBlocks of its properties and methods to learn more.*
 
-3) The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
+### 3) Using The Preconfigured PHAR Package as a Proxy
+
+The third way is to use the PHAR-Archive, this is available since `v1.2.0`, and it is by far, the most simple one. The PHAR-Archive ([`gdpr-tools.phar`](https://github.com/MarwanAlsoltany/gdpr-tools/releases/latest)) is a complete package that includes GDPR-Tools [Backend](./src/Backend) and [Frontend](./src/Frontend). You can use it to sanitize the response before sending it to the client using a simple config file (example [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php)). The PHAR will sanitize the response (backend part) and build the necessary JavaScript code that integrates with the used CMP (frontend part) and attach it to the final response to handle the consent on the client-side. The following code snippet demonstrates how to do that:
 
 ```php
 
@@ -199,7 +206,9 @@ require './gdpr-tools.phar';
 
 ```
 
-![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *Check out the comments on [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php) fields, to learn more about the expected data-types.*
+![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *Check out the comments on [`gdpr-tools.config.php`](./src/Package/gdpr-tools.config.php) fields, to learn more about the expected data-types. Also check out [`gdpr-tools.php`](./src/Package/gdpr-tools.php) to see an example of how to use the Frontend SDK in addition to Backend Sanitization.*
+
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *You should configure your web-server and make sure that requests to the renamed app entry (`index.php` that became `app.php`) are redirected to the newly created app entry (`/app.php` redirects to or loads `index.php`).*
 
 ### What Elements are Sanitized?
 
@@ -218,7 +227,7 @@ By default these elements (and attributes) will be sanitized if they point to a 
 
 > Check out [`\MAKS\GDPRTools\Backend\Sanitizer::ELEMENTS`](./src/Backend/Sanitizer.php) to see all the elements that are sanitized by default.
 
-Starting from `v1.2.0` with the introduction of the JavaScript SDK, you can also prevent inline scripts from running (Google Analytics script for example). Because there is not way to determine if an inline script is going to perform some action that requests and external resource and therefore requires user consent, the backend part in this case have to done manually.
+Starting from `v1.2.0` with the introduction of the JavaScript SDK, you can also prevent inline scripts from running (Google Analytics script for example). Because there is not way to determine if an inline script is going to perform some action that requests and external resource and therefore requires user consent, the backend part in this case have to be done manually.
 
 The prevention of executing the script can achieved by changing the script element to the following:
 
@@ -236,7 +245,7 @@ The prevention of executing the script can achieved by changing the script eleme
 
 ```
 
-When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent to the given category is given and add the `data-consent-evaluated="true"` attribute to denote that the script have been evaluated and the `data-consent-alternative="text/blocked"` to revert back the element if the consent is withdrawn.
+When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent to the given category is given and add the `data-consent-evaluated="true"` attribute to denote that the script have been evaluated and the `data-consent-alternative="text/blocked"` to revert back the element if the consent is withdrawn (this will actually have no effect as the script is already executed). Additionally the `data-consent-decorates` attribute containing a query selector can optionally be added to teleport the decoration for this element elsewhere in the DOM.
 
 ### How Do the Sanitized Elements Look Like?
 
@@ -251,7 +260,7 @@ Each sanitized element will contain these attributes:
     - `data-consent-alternative`:
         - The alternative attribute value that will be used instead of the original value (this attribute will be added in the frontend automatically if it was not specified in the backend).
     - `data-consent-original-{{ sanitizedAttribute:[href|src|srcset|poster|data] }}` e.g. `data-consent-original-src`:
-        - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute, the second and third data-attributes will be overwritten when the second attribute is sanitized.
+        - The original value of the sanitized attribute, this is useful when an element contains more than one sanitizable attribute (e.g. `<video src="..." poster="...">`), the second (`data-consent-attribute`) and third (`data-consent-value`) data-attributes will be overwritten when the second attribute is sanitized.
 - Attributes added in the Frontend:
     - `data-consent-category`:
         - The sanitized element category.
@@ -259,6 +268,9 @@ Each sanitized element will contain these attributes:
         - The sanitized element decorator (wrapper element) ID (available only on elements that are decorated).
     - `data-consent-evaluated`:
         - The sanitized element evaluation state (available only on inline `<script>` elements).
+- Attributes with special functionality:
+    - `data-consent-decorates`:
+        - The sanitized element decoratable element. This attribute is optional and can also be added at runtime. It has a very special use-case, it should contain a query selector which is used to teleport the decoration elsewhere in the DOM keeping the binding to the blocked element (normally, the blocked element will be decorated itself). This attribute is typically used with inline `<script>` elements that load some external resource and insert the result in a specific element on the page (for example Leaflet Map), in this case it makes no sense to decorate the blocked element (which is the `<script>` element in this case) but the element where the data is inserted (say for example an empty `<div>` with a specific ID). This attribute is availabe since `v1.4.0`.
 
 If you want to name these attributes something else, you can provide custom names (name translations) using the `\MAKS\GDPRTools\Backend\Sanitizer::$attributes` static property on the backend and/or `frontend.attributes` in the config file or `settings.attributes` on the frontend.
 
@@ -267,10 +279,10 @@ If you want to name these attributes something else, you can provide custom name
 ```php
 
 \MAKS\GDPRTools\Backend\Sanitizer::$attributes = [
-    'data-consent-element' => 'data-gdpr-element',
-    'data-consent-attribute' => 'data-gdpr-attribute',
-    'data-consent-value' => 'data-gdpr-value',
-    'data-consent-alternative' => 'data-gdpr-alternative',
+    'data-consent-element'      => 'data-gdpr-element',
+    'data-consent-attribute'    => 'data-gdpr-attribute',
+    'data-consent-value'        => 'data-gdpr-value',
+    'data-consent-alternative'  => 'data-gdpr-alternative',
     // data-consent-original-(href|src|srcset|poster|data)
     'data-consent-original-src' => 'data-gdpr-original-src',
 ];
@@ -312,6 +324,7 @@ const config = {
       'data-consent-original-poster': 'data-consent-original-poster',
       'data-consent-original-data':   'data-consent-original-data',
       'data-consent-category':        'data-consent-category',
+      'data-consent-decorates':       'data-consent-decorates',
       'data-consent-decorator':       'data-consent-decorator',
       'data-consent-evaluated':       'data-consent-evaluated',
     },
@@ -348,8 +361,8 @@ const config = {
       'video',
     ],
     messages: {
-      overlayTitle:        'Content is being blocked due to insufficient Cookies configuration!',
-      overlayDescription:  'This content requires consent to the "{type}" cookies, to be viewed.',
+      overlayTitle:        'Content of "{service}" is being blocked due to insufficient Cookies configuration!', // {name} is alias for {service}
+      overlayDescription:  'This content requires consent to the "{type}" cookies, to be viewed.', // {category} is alias for {type}
       overlayAcceptButton: 'Allow this category',
       overlayInfoButton:   'More info',
     },
@@ -370,14 +383,16 @@ const config = {
 window.cmpHelper = (new ConcreteCmpHelper(config)).update();
 
 ```
-![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *The JavaScript SDK has an active state, it will revert blocked elements attributes if the consent is withdrawn (readd decorations to element that have decoration and reload the resource if the consent is given again).*
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *The JavaScript SDK has an active state, it will revert blocked elements attributes if the consent is withdrawn (re-add decorations to elements when consent is withdrawn and reload the resource if the consent is given again).*
 
 #### Extending The Frontend SDK
 
 The `*CmpHelper` classes expose some properties to access the currently blocked elements and other useful information.
-For example, the wrapper is always created for the current viewport to best match the actual size of the element. Resizing the viewport might make the layout broken as the wrapper is not automatically resized by default, to solve this issue, the following snippet can be used to resize the wrapper:
+For example, the wrapper is always created for the current viewport to best match the actual size of the element. Resizing the viewport might make the layout broken as ~~the wrapper is not automatically resized by default~~ *starting from `v1.4.0`, the overlay updates upon window resize*, to solve this issue, the following snippet can be used to resize the wrapper:
 
 ```js
+// this snippet is obsolete (>= 1.4.0), a more efficient version of this is not built-in natively
+// this is only for demonstarion purposes
 
 window.addEventListener('resize', () => {
     window.cmpHelper.elements.forEach(element => {
@@ -394,7 +409,7 @@ window.dispatchEvent(new Event('resize'));
 
 ```
 
-Also some useful events are fired throughout the life cycle of `*CmpHelper` classes to allow for hooking into them to perform some additional actions. For example, you may want to give a hint about the resource that is currently being blocked, the following snippet can be used to do that:
+Also some useful events are fired throughout the life cycle of `*CmpHelper` classes to allow for hooking into them to perform some additional actions. For example, you may want to give a hint about the resource that is currently being blocked, the following snippet can be used to do that *(starting from `v1.4.0`, the `messages.overlayTitle` contains the `{service}` placeholder which will inject the blocked URL hostname or the tag name for elements that does not load external resources)*:
 
 ```js
 
@@ -417,6 +432,8 @@ window.addEventListener('CmpHelperElementOnDecorate', (event) => {
 ```
 
 ![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`AbstractCmpHelper`](./src/Frontend/src/classes/AbstractCmpHelper.js) class is well documented, check out the DocBlocks of methods to learn more about the fired events (search for [`@fires`](./src/Frontend/src/classes/AbstractCmpHelper.js#:~:text=%40fires)).*
+
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *GDPR-Tools is meant to work with state-less apps, this means, it does not handle resources loaded dynamically (e.g. `<iframe>` that loads when a modal is opened) nor scripts loaded/executed by allowed elements. These cases has to be handled manually by extending the Frontend SDK using the availabe events or by extending [`*CmpHelper`](./src/Frontend/src/classes) classes.*
 
 
 ---
