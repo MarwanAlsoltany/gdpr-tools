@@ -101,6 +101,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020callback\u0020to\u0020replace\u0020the\u0020elements\u0020to\u0020sanitize.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getReplaceCallback"
         },                {
+            "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AVERSION",
+            "name": "VERSION",
+            "summary": "Package\u0020version.",
+            "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_VERSION"
+        },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003AELEMENTS",
             "name": "ELEMENTS",
             "summary": "HTML\u0020elements\u0020that\u0020load\u0020external\u0020resources.",
