@@ -10,6 +10,21 @@
  */
 class AbstractCmpHelper {
   /**
+   * Package version.
+   *
+   * @var {string} VERSION
+   *
+   * @public
+   * @static
+   * @constant
+   *
+   * @since 1.4.0
+   */
+  static VERSION = 'v1.4.0';
+
+  /**
+   * CMP-Helper config.
+   *
    * @var {object.<string,*>} config
    * @property {object.<string,string>} attributes - Consent attributes translations.
    * @property {array<string>} categories - Consent categories names.
@@ -37,6 +52,8 @@ class AbstractCmpHelper {
   #config = {};
 
   /**
+   * CMP-Helper attributes names overrides.
+   *
    * @var {object.<string,string>} attributes
    * @property {string} attributes.attribute
    *
@@ -62,6 +79,8 @@ class AbstractCmpHelper {
   };
 
   /**
+   * CMP-Helper blocked elements.
+   *
    * @var {array<HTMLElement>} elements
    *
    * @public
@@ -70,6 +89,8 @@ class AbstractCmpHelper {
   elements = [];
 
   /**
+   * CMP-Helper configured categories.
+   *
    * @var {object} categories
    * @property {array<HTMLElement>} categories.category
    *
@@ -78,6 +99,8 @@ class AbstractCmpHelper {
   categories = {};
 
   /**
+   * CMP-Helper categorization configuration.
+   *
    * @var {object,<string,array>} categorization
    * @property {array<string>} categorization.category
    *
@@ -86,6 +109,8 @@ class AbstractCmpHelper {
   categorization = {};
 
   /**
+   * CMP-Helper decoratable elements.
+   *
    * @var {array<HTMLElement>} decoration
    *
    * @public
@@ -96,6 +121,8 @@ class AbstractCmpHelper {
   ];
 
   /**
+   * CMP-Helper overlay messages.
+   *
    * @var {object.<string,string>} messages
    * @property {string} messages.message
    *
@@ -109,6 +136,8 @@ class AbstractCmpHelper {
   };
 
   /**
+   * CMP-Helper overlay markup CSS classes.
+   *
    * @var {object.<string,string>} classes
    * @property {string} classes.class
    *
@@ -126,7 +155,10 @@ class AbstractCmpHelper {
     overlayInfoButton: '',
   };
 
+
   /**
+   * AbstractCmpHelper constructor.
+   *
    * @param {object.<string,*>} config
    * @param {object.<string,string>} attributes - Consent attributes translations.
    * @param {array<string>} categories - Consent categories names.
@@ -208,12 +240,14 @@ class AbstractCmpHelper {
     }));
   }
 
+
   /**
-   * Initializes the class. This method MUST be called before any other method in sub-classes.
+   * Initializes class internal state and bindes global events (i.e. `load`, `update`, and `resize`).
+   * This method MUST be called before any other method in sub-classes (normally in constructor after `super()`).
    *
-   * @returns {AbstractCmpHelper}
+   * @returns {AbstractCmpHelper} `this`
    *
-   * @private
+   * @protected
    */
   initialize() {
     this.categorize();
@@ -235,7 +269,11 @@ class AbstractCmpHelper {
   };
 
   /**
-   * @returns {string}
+   * Returns the `camelCase` version of a `data-consent-*` attribute that can be used as a key on element `DOMStringMap`.
+   *
+   * @param {string} name The name of the attribute after `data-consent-`.
+   *
+   * @returns {string} The `camelCase` version of the attribute name (e.g. `element` (`data-consent-element`) -> `consentElement`).
    *
    * @private
    */
@@ -256,9 +294,13 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @returns {AbstractCmpHelper}
+   * Categorizes blocked elements by adding each element to its catgory group and attaching the following attributes:
+   *    - `data-consent-category`
+   *    - `data-consent-alternative`
    *
-   * @fires AbstractCmpHelper#CmpHelperElementsOnCategorize
+   * @returns {AbstractCmpHelper} `this`
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementsOnCategorize This event is fired always.
    *
    * @public
    */
@@ -304,6 +346,17 @@ class AbstractCmpHelper {
     return this;
   };
 
+  /**
+   * Refreshes blocked elements that have an overlay to update rendered overlay view.
+   *
+   * @returns {AbstractCmpHelper} `this`
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementsOnRefresh This event is fired always.
+   *
+   * @public
+   *
+   * @since 1.4.0
+   */
   refresh() {
     let elements = [];
 
@@ -326,10 +379,45 @@ class AbstractCmpHelper {
   };
 
   /**
-   * @param {HTMLElement} element
-   * @returns {boolean}
+   * Updates CMP-Helper state by allowing/disallow elements depending on the current given consent by the user.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnActivate
+   * @returns {AbstractCmpHelper} `this`
+   *
+   * @fires AbstractCmpHelper#CmpHelperOnUpdate This event is fired always.
+   *
+   * @public
+   */
+  update() {
+    Object
+      .keys(this.categories)
+      .forEach(category => {
+        if (
+          window.hasOwnProperty(this.getCmpObjectName()) &&
+          this.constructor.isConsentedTo(category)
+        ) {
+          this.allow(category);
+        } else {
+          this.disallow(category);
+        }
+      });
+
+    window.dispatchEvent(new CustomEvent('CmpHelperOnUpdate', {
+      bubbles: true,
+      detail: { object: this }
+    }));
+
+    return this;
+  }
+
+  /**
+   * Activates a blocked element by loading it or executing its content.
+   * The `data-consent-evaluated` attribute may be added depending on element type.
+   *
+   * @param {HTMLElement} element The element to activate.
+   *
+   * @returns {boolean} Whether the element has been activated or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnActivate This event is fired only if the element is not already activated.
    *
    * @public
    */
@@ -369,10 +457,14 @@ class AbstractCmpHelper {
   };
 
   /**
-   * @param {HTMLElement} element
-   * @returns {boolean}
+   * Deactivates an element by blocking it and adding an overlay if necessary.
+   * The `data-consent-decorator` attribute will be added to element containing decoration ID.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnDeactivate
+   * @param {HTMLElement} element The element to deactivate.
+   *
+   * @returns {boolean} Whether the element has been deactivated or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnDeactivate This event is fired only if the element is not already deactivated.
    *
    * @public
    */
@@ -396,10 +488,15 @@ class AbstractCmpHelper {
   };
 
   /**
-   * @param {HTMLElement} element
-   * @returns {boolean}
+   * Decorates an element by associating an overlay with it.
+   * The overlay is added over the element or teleported elsewhere in the DOM
+   * if the `data-consent-decorates` attribute is set.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnDecorate
+   * @param {HTMLElement} element The element to decorate.
+   *
+   * @returns {boolean} Whether the element has been decorated or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnDecorate This event is fired only if the element is not already decorated.
    *
    * @public
    */
@@ -451,10 +548,13 @@ class AbstractCmpHelper {
   };
 
   /**
-   * @param {HTMLElement} element
-   * @returns {boolean}
+   * Undecorates an element by removing the overlay associated with it.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnUndecorate
+   * @param {HTMLElement} element The element to undecorate.
+   *
+   * @returns {boolean} Whether the element has been undecorated or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnUndecorate This event is fired only if the element is not already undecorated.
    *
    * @public
    */
@@ -492,6 +592,13 @@ class AbstractCmpHelper {
     return true;
   };
 
+  /**
+   * Returns whether the element should be decorated or not depending on configuration.
+   *
+   * @returns {boolean} Whether the element is decoratable or not.
+   *
+   * @private
+   */
   #isDecoratable(element) {
     return (
       // if the element is any of the types that should be decorated
@@ -503,10 +610,23 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @param {HTMLElement} element
-   * @returns {HTMLElement}
+   * Creates decoration markup and returns it as an object of live HTML nodes.
    *
-   * @public
+   * @param {HTMLElement} element The element to create the decoration for.
+   * @param {HTMLElement|null} decoratable [optional] The element to teleport the decoration on (this is mostly the same as `element`).
+   *
+   * @returns {object} An object containing the following elements as live HTML nodes (note that the decoration still need to be added to the DOM):
+   *    - `wrapper`: Overlay wrapper.
+   *    - `container`: Overlay container.
+   *    - `element`: Overlay element (where the blocked element should be added).
+   *    - `overlay`: Overlay content container.
+   *    - `overlayTitle`: Overlay content title.
+   *    - `overlayDescription`: Overlay content description.
+   *    - `overlayButtons`: Overlay buttons container.
+   *    - `overlayAcceptButton`: Overlay accept button.
+   *    - `overlayInfoButton`: Overlay info button.
+   *
+   * @private
    */
   #createDecoration(element, decoratable) {
     decoratable = decoratable ? decoratable : element;
@@ -580,6 +700,18 @@ class AbstractCmpHelper {
     return decoration;
   }
 
+  /**
+   * Returns a service name for the passed element.
+   * This can be the URL hostname if the element loads an external resource, or the capitalized tag name of the element if not.
+   *
+   * @param {HTMLElement} element The element to get the service name for.
+   *
+   * @returns {string} A hostname or a capitalized tag name.
+   *
+   * @private
+   *
+   * @since 1.4.0
+   */
   #getElementServiceName(element) {
     const attribute = this.#getDatasetName('value');
 
@@ -594,6 +726,17 @@ class AbstractCmpHelper {
     return service;
   }
 
+  /**
+   * Returns a capitalized version of the category name of the blocked element.
+   *
+   * @param {HTMLElement} element
+   *
+   * @returns {string} A captiliazed version of element's category.
+   *
+   * @private
+   *
+   * @since 1.4.0
+   */
   #getElementCategoryName(element) {
     const attribute = this.#getDatasetName('category');
 
@@ -604,10 +747,13 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @param {string} category
-   * @returns {boolean}
+   * Allows the passed category by activating all elements in that category group.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnAllow
+   * @param {string} category The category to activate.
+   *
+   * @returns {boolean} Whether the category has been allowed or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnAllow This event is fired only if the category is known.
    *
    * @public
    */
@@ -631,10 +777,13 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @param {string} category
-   * @returns {boolean}
+   * Disallows the passed category be deactivating all elements of that category.
    *
-   * @fires AbstractCmpHelper#CmpHelperElementOnDisallow
+   * @param {string} category
+   *
+   * @returns {boolean} Whether the category has been disalloed or not.
+   *
+   * @fires AbstractCmpHelper#CmpHelperElementOnDisallow This event is fired only if the category is known.
    *
    * @public
    */
@@ -658,37 +807,12 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @returns {AbstractCmpHelper}
+   * Returns the name of the cookie used by the integrated CMP.
+   * This method is abstract, it should be implemented when extending the `AbstractCmpHelper` class.
    *
-   * @fires AbstractCmpHelper#CmpHelperOnUpdate
+   * @returns {string} Cookie name of the integrated CMP.
    *
-   * @public
-   */
-  update() {
-    Object
-      .keys(this.categories)
-      .forEach(category => {
-        if (
-          window.hasOwnProperty(this.getCmpObjectName()) &&
-          this.constructor.isConsentedTo(category)
-        ) {
-          this.allow(category);
-        } else {
-          this.disallow(category);
-        }
-      });
-
-    window.dispatchEvent(new CustomEvent('CmpHelperOnUpdate', {
-      bubbles: true,
-      detail: { object: this }
-    }));
-
-    return this;
-  }
-
-  /**
-   * @returns {string}
-   *
+   * @abstract
    * @public
    */
   getCmpCookieName() {
@@ -696,7 +820,10 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @returns {string}
+   * Returns the name of the JavaScript object available on `window` of the integrated CMP.
+   * This method is abstract, it should be implemented when extending the `AbstractCmpHelper` class.
+   *
+   * @returns {string} JavaScript object name (on `window`) of the integrated CMP.
    *
    * @abstract
    * @public
@@ -706,7 +833,10 @@ class AbstractCmpHelper {
   }
 
   /**
-   * @returns {string}
+   * Returns the name of the update event provided by the integrated CMP.
+   * This method is abstract, it should be implemented when extending the `AbstractCmpHelper` class.
+   *
+   * @returns {string} Update event of the integrated CMP.
    *
    * @abstract
    * @public
@@ -716,6 +846,9 @@ class AbstractCmpHelper {
   }
 
   /**
+   * Shows CMP dialog. Used as binding on overlay info button.
+   * This method is abstract and static, it should be implemented when extending the `AbstractCmpHelper` class.
+   *
    * @returns {void}
    *
    * @abstract
@@ -727,6 +860,9 @@ class AbstractCmpHelper {
   }
 
   /**
+   * Consents to the given category on the CMP object. Used as binding on overlay accept button.
+   * This method is abstract and static, it should be implemented when extending the `AbstractCmpHelper` class.
+   *
    * @param {string} category
    *
    * @returns {void}
@@ -740,6 +876,9 @@ class AbstractCmpHelper {
   }
 
   /**
+   * Returns whether the user is constent to the given category on the CMP object or not.
+   * This method is abstract and static, it should be implemented when extending the `AbstractCmpHelper` class.
+   *
    * @param {string} category
    *
    * @returns {void}
