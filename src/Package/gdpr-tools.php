@@ -75,8 +75,7 @@ $attributes = getConfigValue($configuration, 'frontend.attributes', []);
 // we try to insert GDPR-Tools Frontend SDK before any other script, as some CMPs
 // use the 'beforescriptexecute' event to block it if it was added after them.
 // we insert it after the <title /> expecting it to be before any <script /> element.
-$injections['AFTER']['title']   = (array)$injections['AFTER']['title'];
-$injections['AFTER']['title'][] = $script;
+$injections['AFTER']['title'] = array_merge(array($script), array_values((array)$injections['AFTER']['title']));
 
 Sanitizer::$attributes = $attributes;
 Sanitizer::sanitizeApp($entry, $condition, $uris, $whitelist, $appends, $prepends, $injections);
@@ -109,7 +108,7 @@ function getCmpHelperConfig(array $settings): string {
 function getCmpHelperFileScript(string $script): string {
     file_put_contents(ROOT . ($path = '/gdpr-tools.cmp-helper.js'), $script);
 
-    return sprintf('<script id="gdpr-tools" type="text/javascript" src="%s?cid=%s"></script>', $path, getCacheId());
+    return sprintf('<script id="gdpr-tools" type="text/javascript" src="%s?version=%s&cid=%s"></script>', $path, Sanitizer::VERSION, getCacheId());
 }
 
 function getCmpHelperBase64Script(string $script): string {
