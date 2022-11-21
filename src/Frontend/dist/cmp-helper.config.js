@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.groupEnd();
 
     console.log(
-      '%c GDPR-Tools:  https://github.com/MarwanAlsoltany/gdpr-tools ',
+      `%c GDPR-Tools:  https://github.com/MarwanAlsoltany/gdpr-tools/tree/${helper.constructor.VERSION}`,
       'background:#222222;color:#ffffff'
     );
 
