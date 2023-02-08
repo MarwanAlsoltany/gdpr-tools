@@ -1,4 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', (event) => {
+  const object = 'cmpHelper';
+
+  if (object in window) {
+    return;
+  }
+
+  if (!event.isTrusted) {
+    console.error(
+      'GDPR-Tools will not be initialized!',
+      'The "DOMContentLoaded" was not trusted, this means that the original event was prevented and fake one was dispatched instead.',
+      'This can be achieved by making GDPR-Tools the first script of the document.'
+    );
+
+    return;
+  }
+
   let helper = null;
   let config = null;
 
@@ -12,12 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  helper = (new ConcreteCmpHelper(config)).update();
+  helper = new ConcreteCmpHelper(config);
+  helper.update();
 
-  window.cmpHelper       = helper;
-  window.cmpHelperConfig = config;
+  window[object]            = helper;
+  window[object + 'Config'] = config;
 
-  if (helper instanceof AbstractCmpHelper) {
+  setTimeout(() => {
     console.groupCollapsed(
       '%c GDPR-Tools ',
       'background:#222222;color:#999999;font-weight:bold;font-style:italic'
@@ -66,5 +83,5 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     console.groupEnd();
-  }
-});
+  }, 0);
+}, { once: true, capture: true, passive: true });
