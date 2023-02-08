@@ -4,6 +4,18 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.4.1] - 2023-02-08](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.4.0...v1.4.1)
+- Update `AbstractCmpHelper` class:
+    - Make all dispatched events receive the helper object in detail.
+    - Make all dispatched events cancelable, do not bubble and not composed.
+- Update `cmp-helper.config.js`:
+    - Switch listened on event target from document to window.
+    - Update event listener options to make sure it is the first.
+    - Add a check for cmpHelper object existence in window.
+    - Add a check to make sure the listened on event is trusted.
+
+<br />
+
 ## [[1.4.0] - 2022-11-21](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.3.0...v1.4.0)
 - Update `AbstractCmpHelper` class:
     - Add new attribute `data-consent-decorates` to allow for teleporting element decoration elsewhere on the DOM.
