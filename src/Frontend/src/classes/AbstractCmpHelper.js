@@ -20,7 +20,7 @@ class AbstractCmpHelper {
    *
    * @since 1.4.0
    */
-  static VERSION = 'v1.4.0';
+  static VERSION = 'v1.4.1';
 
   /**
    * CMP-Helper config.
