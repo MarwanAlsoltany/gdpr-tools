@@ -235,8 +235,10 @@ class AbstractCmpHelper {
     };
 
     window.dispatchEvent(new CustomEvent('CmpHelperOnCreate', {
-      bubbles: true,
-      detail: { config: this.config }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, config: this.#config }
     }));
   }
 
@@ -262,8 +264,8 @@ class AbstractCmpHelper {
     }
 
     window.addEventListener(event, this.update.bind(this));
-    window.addEventListener('resize', this.refresh.bind(this));
-    document.addEventListener('DOMContentLoaded', this.update.bind(this));
+    window.addEventListener('resize', this.refresh.bind(this), { passive: true });
+    window.addEventListener('load', this.update.bind(this), { once: true, capture: false });
 
     return this;
   };
@@ -339,8 +341,10 @@ class AbstractCmpHelper {
     });
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementsOnCategorize', {
-      bubbles: true,
-      detail: { categories: this.categories }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, categories: this.categories }
     }));
 
     return this;
@@ -371,8 +375,10 @@ class AbstractCmpHelper {
     });
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementsOnRefresh', {
-      bubbles: true,
-      detail: { elements }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, elements }
     }));
 
     return this;
@@ -402,7 +408,9 @@ class AbstractCmpHelper {
       });
 
     window.dispatchEvent(new CustomEvent('CmpHelperOnUpdate', {
-      bubbles: true,
+      bubbles: false,
+      composed: false,
+      cancelable: true,
       detail: { object: this }
     }));
 
@@ -445,8 +453,10 @@ class AbstractCmpHelper {
     }
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnActivate', {
-      bubbles: true,
-      detail: { element }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, element }
     }));
 
     if (this.#isDecoratable(element)) {
@@ -476,8 +486,10 @@ class AbstractCmpHelper {
     element[element.dataset[this.#getDatasetName('attribute')]] = element.dataset[this.#getDatasetName('alternative')] || '';
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnDeactivate', {
-      bubbles: true,
-      detail: { element }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, element }
     }));
 
     if (this.#isDecoratable(element)) {
@@ -522,8 +534,10 @@ class AbstractCmpHelper {
     const decoration = this.#createDecoration(element, decoratable);
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnDecorate', {
-      bubbles: true,
-      detail: { element, decoratable, decoration }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, element, decoratable, decoration }
     }));
 
     element.dataset[this.#getDatasetName('decorator')] = decoration.wrapper.id;
@@ -580,8 +594,10 @@ class AbstractCmpHelper {
     const decoration = document.getElementById(element.dataset[this.#getDatasetName('decorator')]);
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnUndecorate', {
-      bubbles: true,
-      detail: { element, decoratable, decoration }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, element, decoratable, decoration }
     }));
 
     element.removeAttribute(this.attributes['data-consent-decorator']);
@@ -769,8 +785,10 @@ class AbstractCmpHelper {
     }
 
     window.dispatchEvent(new CustomEvent('CmpHelperCategoryOnAllow', {
-      bubbles: true,
-      detail: { category, elements }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, category, elements }
     }));
 
     return true;
@@ -799,8 +817,10 @@ class AbstractCmpHelper {
     }
 
     window.dispatchEvent(new CustomEvent('CmpHelperCategoryOnDisallow', {
-      bubbles: true,
-      detail: { category, elements }
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: { object: this, category, elements }
     }));
 
     return true;
