@@ -239,7 +239,23 @@ The prevention of executing the script can achieved by changing the script eleme
 </script>
 
 <!-- TO -->
-<script type="text/blocked" data-consent-element="script" data-consent-attribute="type" data-consent-value="text/javascript" data-consent-category="marketing">
+<script type="text/blocked"
+        data-consent-element="script"
+        data-consent-attribute="type"
+        data-consent-value="text/javascript"
+        data-consent-category="marketing">
+    // JavaScript code ...
+</script>
+
+<!-- TO (with an overlay) -->
+
+<script type="text/blocked"
+        data-consent-element="script"
+        data-consent-attribute="type"
+        data-consent-value="text/javascript"
+        data-consent-category="marketing"
+        data-consent-decorates="#selector"
+        >
     // JavaScript code ...
 </script>
 
@@ -283,8 +299,8 @@ If you want to name these attributes something else, you can provide custom name
     'data-consent-attribute'    => 'data-gdpr-attribute',
     'data-consent-value'        => 'data-gdpr-value',
     'data-consent-alternative'  => 'data-gdpr-alternative',
-    // data-consent-original-(href|src|srcset|poster|data)
     'data-consent-original-src' => 'data-gdpr-original-src',
+    // data-consent-original-(href|src|srcset|poster|data) ...
 ];
 
 ```
@@ -413,7 +429,7 @@ Also some useful events are fired throughout the life cycle of `*CmpHelper` clas
 
 ```js
 
-window.addEventListener('CmpHelperElementOnDecorate', (event) => {
+window.addEventListener('CmpHelperElementOnDecorate', event => {
     const services = {
         'google': (url) => url.pathname.includes('/maps') ? 'Google Maps' : 'Google',
         'youtube': (url) => 'YouTube',
@@ -427,6 +443,41 @@ window.addEventListener('CmpHelperElementOnDecorate', (event) => {
     const owner      = services[service] ? services[service](url) : '"' + url.hostname + '"';
 
     decoration.overlayTitle.innerText = decoration.overlayTitle.innerText.replace('Content', `Content of ${owner}`);
+});
+
+```
+
+Here is another example of how to make the `*CmpHelper` helper display messages in multiple languages:
+
+```js
+
+// this event is fired very early in CmpHelper life-cycle,
+// make sure it is registered before the CmpHelper is initialized
+window.addEventListener('CmpHelperOnCreate', event => {
+    const locale   = document.documentElement.lang.split(/([-_])/i).at(0).toLowerCase();
+    const messages = {
+        en: {
+            overlayTitle: 'EN: Title',
+            overlayDescription: 'EN: Description',
+            overlayAcceptButton: 'EN: Accept',
+            overlayInfoButton: 'EN: Info',
+        },
+        de: {
+            overlayTitle: 'DE: Title',
+            overlayDescription: 'DE: Description',
+            overlayAcceptButton: 'DE: Accept',
+            overlayInfoButton: 'DE: Info',
+        },
+        fr: {
+            overlayTitle: 'FR: Title',
+            overlayDescription: 'FR: Description',
+            overlayAcceptButton: 'FR: Accept',
+            overlayInfoButton: 'FR: Info',
+        },
+        // here more languages ...
+    };
+
+    event.detail.object.messages = messages[locale] ?? messages['en'];
 });
 
 ```
