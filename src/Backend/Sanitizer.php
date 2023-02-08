@@ -107,7 +107,7 @@ class Sanitizer
      *
      * @since 1.4.0
      */
-    public const VERSION = 'v1.4.0';
+    public const VERSION = 'v1.4.1';
 
     /**
      * HTML elements that load external resources.
