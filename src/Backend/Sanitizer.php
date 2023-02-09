@@ -26,9 +26,9 @@ use function ob_get_level;
 use function flush;
 
 /**
- * A class that sanitizes HTML elements that automatically load external resources
- * by setting their attributes that load the external resources to temporary URI/URL
- * and saving the original attributes values in a temporary attribute to be used upon consent.
+ * A class that sanitizes HTML elements which load external resources automatically, the is achieved
+ * by setting their attributes that load the external resources to temporary URI/URL and saving the
+ * original attributes values in a temporary attribute to be used again to reload the resources upon consent.
  *
  * Elements that will be sanitized are:
  * - `<link href="" />`
@@ -107,7 +107,7 @@ class Sanitizer
      *
      * @since 1.4.0
      */
-    public const VERSION = 'v1.4.1';
+    public const VERSION = 'v1.4.2';
 
     /**
      * HTML elements that load external resources.
@@ -171,7 +171,7 @@ class Sanitizer
     /**
      * Injection modes search and replacements.
      *
-     * @var string
+     * @var array
      */
     protected const INJECTION_MODES = [
         // mode   => [search => replacement]
