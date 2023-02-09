@@ -3,7 +3,7 @@ Search.appendIndex(
                 {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer",
             "name": "Sanitizer",
-            "summary": "A\u0020class\u0020that\u0020sanitizes\u0020HTML\u0020elements\u0020that\u0020automatically\u0020load\u0020external\u0020resources\nby\u0020setting\u0020their\u0020attributes\u0020that\u0020load\u0020the\u0020external\u0020resources\u0020to\u0020temporary\u0020URI\/URL\nand\u0020saving\u0020the\u0020original\u0020attributes\u0020values\u0020in\u0020a\u0020temporary\u0020attribute\u0020to\u0020be\u0020used\u0020upon\u0020consent.",
+            "summary": "A\u0020class\u0020that\u0020sanitizes\u0020HTML\u0020elements\u0020which\u0020load\u0020external\u0020resources\u0020automatically,\u0020the\u0020is\u0020achieved\nby\u0020setting\u0020their\u0020attributes\u0020that\u0020load\u0020the\u0020external\u0020resources\u0020to\u0020temporary\u0020URI\/URL\u0020and\u0020saving\u0020the\noriginal\u0020attributes\u0020values\u0020in\u0020a\u0020temporary\u0020attribute\u0020to\u0020be\u0020used\u0020again\u0020to\u0020reload\u0020the\u0020resources\u0020upon\u0020consent.",
             "url": "classes/MAKS-GDPRTools-Backend-Sanitizer.html"
         },                {
             "fqsen": "\\MAKS\\GDPRTools\\Backend\\Sanitizer\u003A\u003A__construct\u0028\u0029",

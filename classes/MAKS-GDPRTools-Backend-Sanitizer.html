@@ -122,9 +122,9 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">A class that sanitizes HTML elements that automatically load external resources
-by setting their attributes that load the external resources to temporary URI/URL
-and saving the original attributes values in a temporary attribute to be used upon consent.</p>
+            <p class="phpdocumentor-summary">A class that sanitizes HTML elements which load external resources automatically, the is achieved
+by setting their attributes that load the external resources to temporary URI/URL and saving the
+original attributes values in a temporary attribute to be used again to reload the resources upon consent.</p>
 
     <section class="phpdocumentor-description"><p>Elements that will be sanitized are:</p>
 <ul>
@@ -288,7 +288,7 @@ require '/path/to/src/Backend/Sanitizer.php';
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_VERSION">VERSION</a>
     <span>
-        &nbsp;= &#039;v1.4.1&#039;                    </span>
+        &nbsp;= &#039;v1.4.2&#039;                    </span>
 </dt>
 <dd>Package version.</dd>
 
@@ -709,7 +709,7 @@ require '/path/to/src/Backend/Sanitizer.php';
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">VERSION</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;v1.4.1&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;v1.4.2&#039;</span>
 </code>
 
 
@@ -749,7 +749,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-    <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODES</span>
     = <span class="phpdocumentor-signature__default-value">[
     // mode   =&gt; [search =&gt; replacement]
