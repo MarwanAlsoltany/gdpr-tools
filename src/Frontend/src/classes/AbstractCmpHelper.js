@@ -418,6 +418,80 @@ class AbstractCmpHelper {
   }
 
   /**
+   * Evaluates the passed inline script element in a safe context for a single time
+   * on demand or when the document is ready and before `load` event is dispatched.
+   *
+   * @param {HTMLScriptElement} script The script element to evaluated.
+   *
+   * @returns {void}
+   *
+   * @private
+   *
+   * @since 1.4.2
+   */
+  #evaluate(script) {
+    if (
+      script.tagName !== 'SCRIPT' ||
+      script.hasAttribute('src') === true ||
+      script.hasAttribute(this.attributes['data-consent-evaluated']) === true
+    ) {
+      return;
+    }
+
+    script.setAttribute(this.attributes['data-consent-evaluated'], false);
+
+    const promise = new Promise((resolve, reject) => {
+      const controller = new AbortController();
+      const trySatisfy = (callback, event = null) => {
+        if (document.readyState === 'complete') {
+          const success = callback === resolve;
+          const message = `${success ? 'Resolved' : 'Rejected'} via ${event ? '"' + event.type + '" event' : 'consent'}`;
+
+          callback({success, message});
+
+          controller.abort();
+        }
+      };
+
+      // (document.readyState === 'complete') is starts just before 'load' event is dispatched
+      const actions = Object.entries({readystatechange: resolve, load: reject});
+
+      for (const [event, callback] of actions) {
+        document.addEventListener(
+          event,
+          event => trySatisfy(callback, event),
+          { once: true, signal: controller.signal }
+        );
+      }
+
+      trySatisfy(resolve);
+    });
+
+    let evaluated = null;
+
+    promise
+      .then(data => {
+        evaluated = data.success;
+
+        setTimeout(() => {
+          const evaluate = new Function(script.innerText);
+          while (typeof evaluate() === 'function') evaluate();
+        }, 0);
+      })
+      .catch(data => {
+        evaluated = data.success;
+
+        const element = script.outerHTML.replace(script.innerHTML, '/* ... */');
+        throw new Error(
+          `The content of (${element}) cloud not be evaluated: ${data.message}`
+        );
+      })
+      .finally(() => {
+        script.setAttribute(this.attributes['data-consent-evaluated'], evaluated);
+      });
+  }
+
+  /**
    * Activates a blocked element by loading it or executing its content.
    * The `data-consent-evaluated` attribute may be added depending on element type.
    *
@@ -436,20 +510,8 @@ class AbstractCmpHelper {
 
     element[element.dataset[this.#getDatasetName('attribute')]] = element.dataset[this.#getDatasetName('value')];
 
-    if (
-      element instanceof HTMLScriptElement &&
-      element.hasAttribute('src') == false &&
-      element.hasAttribute(this.attributes['data-consent-evaluated']) == false
-    ) {
-      // const scriptElement = document.createElement(element.tagName);
-      // const scriptContent = document.createTextNode(element.innerText);
-      // scriptElement.appendChild(scriptContent);
-      // element.parentNode.insertBefore(scriptElement, element.nextSibling);
-      // element.remove();
-      // eval() is used to better track changes in the actual document (HTML)
-      eval(element.innerText);
-
-      element.setAttribute(this.attributes['data-consent-evaluated'], true);
+    if (element instanceof HTMLScriptElement) {
+      this.#evaluate(element);
     }
 
     window.dispatchEvent(new CustomEvent('CmpHelperElementOnActivate', {
