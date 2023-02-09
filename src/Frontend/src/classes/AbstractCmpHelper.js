@@ -732,71 +732,90 @@ class AbstractCmpHelper {
   #createDecoration(element, decoratable) {
     decoratable = decoratable ? decoratable : element;
 
-    const identifier =
-      `cmp-helper-consent-element-${Math.random().toString(36).toUpperCase().substring(2)}`;
-    const classes =
-      `cmp-helper-consent-wrapper ` +
-      `cmp-helper-consent-${decoratable.tagName.toLowerCase()}-wrapper ` +
-      `cmp-helper-consent-${element.tagName.toLowerCase()}-successor`;
+    !(
+      this.#cache.decorations instanceof WeakMap
+    ) && (
+      this.#cache.decorations = new WeakMap()
+    );
 
-    const template = (new DOMParser())
-      .parseFromString(`
-        <div id="${identifier}" class="${classes}">
-          <div class="cmp-helper-consent-container">
-            <div class="cmp-helper-consent-element" hidden></div>
-            <div class="cmp-helper-consent-overlay">
-              <div class="cmp-helper-consent-overlay-title">
-                ${this.messages.overlayTitle.replace(/(\{\s*(service|name)\s*\})/ig, this.#getElementServiceName(element))}
-              </div>
-              <div class="cmp-helper-consent-overlay-description">
-                ${this.messages.overlayDescription.replace(/(\{\s*(category|type)\s*\})/ig, this.#getElementCategoryName(element))}
-              </div>
-              <div class="cmp-helper-consent-overlay-buttons">
-                <a class="cmp-helper-consent-overlay-accept-button" href="javascript:void(0);">
-                  ${this.messages.overlayAcceptButton}
-                </a>
-                &nbsp;
-                <a class="cmp-helper-consent-overlay-info-button" href="javascript:void(0);">
-                  ${this.messages.overlayInfoButton}
-                </a>
+    let decoration;
+
+    if (this.#cache.decorations.has(element)) {
+      decoration = this.#cache.decorations.get(element);
+    } else {
+      const prefix          = 'cmp-helper-consent';
+      const { id, classes } = {
+        id:
+          `${prefix}-element-` +
+          `${Math.random().toString(36).toUpperCase().substring(2)}`,
+        classes:
+          `${prefix}-wrapper ` +
+          `${prefix}-${decoratable.tagName.toLowerCase()}-wrapper ` +
+          `${prefix}-${element.tagName.toLowerCase()}-successor`,
+      };
+
+      const template = (new DOMParser())
+        .parseFromString(`
+          <div id="${id}" class="${classes}" role="dialog">
+            <div class="${prefix}-container">
+              <div class="${prefix}-element" hidden></div>
+              <div class="${prefix}-overlay" role="suggestion">
+                <div class="${prefix}-overlay-title" role="heading" aria-level="4"></div>
+                <div class="${prefix}-overlay-description" role="paragraph"></div>
+                <div class="${prefix}-overlay-buttons">
+                  <a class="${prefix}-overlay-accept-button" href="javascript:void(0);" role="button deletion"></a>
+                  &nbsp;
+                  <a class="${prefix}-overlay-info-button" href="javascript:void(0);" role="button insertion"></a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `, 'text/html');
+        `, 'text/html');
 
-    const decoration = {
-      wrapper:             template.querySelector('.cmp-helper-consent-wrapper'),
-      container:           template.querySelector('.cmp-helper-consent-container'),
-      element:             template.querySelector('.cmp-helper-consent-element'),
-      overlay:             template.querySelector('.cmp-helper-consent-overlay'),
-      overlayTitle:        template.querySelector('.cmp-helper-consent-overlay-title'),
-      overlayDescription:  template.querySelector('.cmp-helper-consent-overlay-description'),
-      overlayButtons:      template.querySelector('.cmp-helper-consent-overlay-buttons'),
-      overlayAcceptButton: template.querySelector('.cmp-helper-consent-overlay-accept-button'),
-      overlayInfoButton:   template.querySelector('.cmp-helper-consent-overlay-info-button'),
-    };
+      decoration = {
+        wrapper:             template.querySelector(`.${prefix}-wrapper`),
+        container:           template.querySelector(`.${prefix}-container`),
+        element:             template.querySelector(`.${prefix}-element`),
+        overlay:             template.querySelector(`.${prefix}-overlay`),
+        overlayTitle:        template.querySelector(`.${prefix}-overlay-title`),
+        overlayDescription:  template.querySelector(`.${prefix}-overlay-description`),
+        overlayButtons:      template.querySelector(`.${prefix}-overlay-buttons`),
+        overlayAcceptButton: template.querySelector(`.${prefix}-overlay-accept-button`),
+        overlayInfoButton:   template.querySelector(`.${prefix}-overlay-info-button`),
+      };
 
-    decoration.wrapper.style.width = element.offsetWidth > 1 ? element.offsetWidth + 'px' : 'auto';
-    decoration.wrapper.style.height = element.offsetHeight > 1 ? element.offsetHeight + 'px' : 'auto';
-    decoration.wrapper.style.display = 'block';
+      for (let key in decoration) {
+        if (
+          this.classes.hasOwnProperty(key) &&
+          this.classes[key].toString().trim() !== ''
+        ) {
+          this.classes[key]
+            .trim()
+            .split(' ')
+            .forEach(className => {
+              decoration[key].classList.add(className.trim());
+            });
+        }
+      }
+
+      this.#cache.decorations.set(element, decoration);
+    }
+
+    decoration.wrapper.style.width    = element.offsetWidth > 1 ? element.offsetWidth + 'px' : 'auto';
+    decoration.wrapper.style.height   = element.offsetHeight > 1 ? element.offsetHeight + 'px' : 'auto';
+    decoration.wrapper.style.display  = 'block';
     decoration.wrapper.style.overflow = 'hidden';
     decoration.wrapper.style.position = 'relative';
-    decoration.wrapper.style.padding = '0 0 16px 0';
+    decoration.wrapper.style.padding  = '0 0 16px 0';
 
-    for (let key in decoration) {
-      if (
-        this.classes.hasOwnProperty(key) &&
-        this.classes[key].toString().trim() !== ''
-      ) {
-        this.classes[key]
-          .trim()
-          .split(' ')
-          .forEach(className => {
-            decoration[key].classList.add(className.trim());
-          });
-      }
-    }
+    decoration.overlayTitle.innerText = this.messages.overlayTitle.replace(
+      /(\{\s*(service|name)\s*\})/ig, this.#getElementServiceName(element)
+    );
+    decoration.overlayDescription.innerText = this.messages.overlayDescription.replace(
+      /(\{\s*(category|type)\s*\})/ig, this.#getElementCategoryName(element)
+    );
+    decoration.overlayAcceptButton.innerText = this.messages.overlayAcceptButton;
+    decoration.overlayInfoButton.innerText = this.messages.overlayInfoButton;
 
     return decoration;
   }
