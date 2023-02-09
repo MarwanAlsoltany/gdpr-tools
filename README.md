@@ -263,6 +263,8 @@ The prevention of executing the script can achieved by changing the script eleme
 
 When the script is added like the example above, it will not be executed until the user consents to the use of `marketing` cookies. The JavaScript SDK will evaluate the script as soon as the consent to the given category is given and add the `data-consent-evaluated="true"` attribute to denote that the script have been evaluated and the `data-consent-alternative="text/blocked"` to revert back the element if the consent is withdrawn (this will actually have no effect as the script is already executed). Additionally the `data-consent-decorates` attribute containing a query selector can optionally be added to teleport the decoration for this element elsewhere in the DOM.
 
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *Inline blocked `<script>` elements must not have a `DOMContentLoaded` or `load` Event Listeners nor a jQuery `$(document).ready()`. The content must be simple JavaScript code or code that is wrapped within a normal or IIFE function. The Frontend SDK will take care of executing the script in the right time after the DOM is loaded and depending on whether a constent is given for the execution or not.*
+
 ### How Do the Sanitized Elements Look Like?
 
 Each sanitized element will contain these attributes:
@@ -484,7 +486,7 @@ window.addEventListener('CmpHelperOnCreate', event => {
 
 ![■](https://user-images.githubusercontent.com/7969982/182090863-c6bf7159-7056-4a00-bc97-10a5d296c797.png) **Hint:** *The [`AbstractCmpHelper`](./src/Frontend/src/classes/AbstractCmpHelper.js) class is well documented, check out the DocBlocks of methods to learn more about the fired events (search for [`@fires`](./src/Frontend/src/classes/AbstractCmpHelper.js#:~:text=%40fires)).*
 
-![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *GDPR-Tools is meant to work with state-less apps, this means, it does not handle resources loaded dynamically (e.g. `<iframe>` that loads when a modal is opened) nor scripts loaded/executed by allowed elements. These cases has to be handled manually by extending the Frontend SDK using the availabe events or by extending [`*CmpHelper`](./src/Frontend/src/classes) classes.*
+![■](https://user-images.githubusercontent.com/7969982/182090864-09a2573a-59e3-4c82-bf9f-e2b9cd360c27.png) **Note:** *GDPR-Tools is meant to work with state-less apps, this means, it does not handle resources loaded dynamically (e.g. `<iframe>` that loads when a modal is opened) nor scripts loaded/executed by allowed elements. These cases have to be handled manually by extending the Frontend SDK using the availabe events or by extending [`*CmpHelper`](./src/Frontend/src/classes) classes.*
 
 
 ---
