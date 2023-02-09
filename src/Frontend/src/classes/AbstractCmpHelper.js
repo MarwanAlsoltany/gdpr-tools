@@ -52,6 +52,18 @@ class AbstractCmpHelper {
   #config = {};
 
   /**
+   * CMP-Helper expensive operations cache.
+   *
+   * @var {object.<string,WeakMap|Object|Array>} cache
+   * @property {WeakMap|Object|Array} cache.pool
+   *
+   * @protected
+   *
+   * @since 1.4.2
+   */
+  #cache = {}
+
+  /**
    * CMP-Helper attributes names overrides.
    *
    * @var {object.<string,string>} attributes
@@ -240,6 +252,17 @@ class AbstractCmpHelper {
       cancelable: true,
       detail: { object: this, config: this.#config }
     }));
+  }
+
+  /**
+   * Returns object internal cache.
+   *
+   * @returns {object}
+   *
+   * @since 1.4.2
+   */
+  get cache() {
+      return this.#cache
   }
 
 
