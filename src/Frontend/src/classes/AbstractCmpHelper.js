@@ -213,7 +213,7 @@ class AbstractCmpHelper {
       ...this.#config.categorization,
     };
 
-    this.decorations = [
+    this.decorations = Array.from(new Set([
       ...this.decorations,
       ...this.#config.decorations.map(type => {
         if (typeof type == 'function' && type.prototype instanceof Element) {
@@ -222,7 +222,7 @@ class AbstractCmpHelper {
 
         return document.createElement(type).constructor;
       }),
-    ];
+    ]));
 
     this.messages = {
       ...this.messages,
