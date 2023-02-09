@@ -4,6 +4,14 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.4.2] - 2023-02-09](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.4.1...v1.4.2)
+- Update `AbstractCmpHelper` class:
+    - Add `evaluate()` method to execute blocked in a controlled context instead of using `eval()`.
+    - Add `cache` property to cache expensive operations throughout the class.
+    - Add `cache()` getter method.
+
+<br />
+
 ## [[1.4.1] - 2023-02-08](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.4.0...v1.4.1)
 - Update `AbstractCmpHelper` class:
     - Make all dispatched events receive the helper object in detail.
