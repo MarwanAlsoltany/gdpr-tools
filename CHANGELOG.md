@@ -4,6 +4,12 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 
 <br />
 
+## [[1.5.0] - 2025-12-10](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.4.2...v1.5.0)
+- Update `AbstractCmpHelper` class:
+    - Update `createDecoration()` method to use a more semantically correct markup.
+
+<br />
+
 ## [[1.4.2] - 2023-02-09](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.4.1...v1.4.2)
 - Update `AbstractCmpHelper` class:
     - Add `evaluate()` method to execute blocked in a controlled context instead of using `eval()`.
@@ -46,7 +52,7 @@ All notable changes to **GDPR-Tools** will be documented in this file.
 <br />
 
 ## [[1.3.0] - 2022-11-10](https://github.com/MarwanAlsoltany/gdpr-tools/compare/v1.2.2...v1.3.0)
-> NOTE: This update should be fully backwards compatible. Attention may be required for projects using `gdpr-tools.phar`, as the way how the Frontend SDK is added to the document has been changed. It used to be appended to the `<body />` element. Starting from `v1.3.0` it will be inserted directly AFTER the `<title />` element to make sure it is the first script added to the document. The major change was introduced as some CMPs were prevent GDPR-Tools Frontend SDK from executing using the `beforescriptexecute` event. People using GDPR-Tools as a dependency via Composer shouldn't experience and change in behavior. 
+> NOTE: This update should be fully backwards compatible. Attention may be required for projects using `gdpr-tools.phar`, as the way how the Frontend SDK is added to the document has been changed. It used to be appended to the `<body />` element. Starting from `v1.3.0` it will be inserted directly AFTER the `<title />` element to make sure it is the first script added to the document. The major change was introduced as some CMPs were prevent GDPR-Tools Frontend SDK from executing using the `beforescriptexecute` event. People using GDPR-Tools as a dependency via Composer shouldn't experience and change in behavior.
 - Update `Sanitizer` class:
     - Add `INJECTION_MODE_*` class constants:
         - `INJECTION_MODE_PREPEND`
