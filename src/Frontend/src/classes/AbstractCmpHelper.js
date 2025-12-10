@@ -756,16 +756,15 @@ class AbstractCmpHelper {
 
       const template = (new DOMParser())
         .parseFromString(`
-          <div id="${id}" class="${classes}" role="dialog">
+          <div id="${id}" class="${classes}" role="dialog" tabindex="-1" aria-labelledby="${id}-title" aria-describedby="${id}-description">
             <div class="${prefix}-container">
               <div class="${prefix}-element" hidden></div>
-              <div class="${prefix}-overlay" role="suggestion">
-                <div class="${prefix}-overlay-title" role="heading" aria-level="4"></div>
-                <div class="${prefix}-overlay-description" role="paragraph"></div>
+              <div class="${prefix}-overlay">
+                <h4 id="${id}-title" class="${prefix}-overlay-title"></h4>
+                <p id="${id}-description" class="${prefix}-overlay-description"></p>
                 <div class="${prefix}-overlay-buttons">
-                  <a class="${prefix}-overlay-accept-button" href="javascript:void(0);" role="button deletion"></a>
-                  &nbsp;
-                  <a class="${prefix}-overlay-info-button" href="javascript:void(0);" role="button insertion"></a>
+                  <button type="button" class="${prefix}-overlay-accept-button"></button>
+                  <button type="button" class="${prefix}-overlay-info-button"></button>
                 </div>
               </div>
             </div>
