@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GDPR-Tools API Docs</title>
+            <title>GDPR-Tools API Docs</title>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
     <link rel="icon" href="images/favicon.ico"/>
@@ -54,10 +55,12 @@
 <aside class="phpdocumentor-column -four phpdocumentor-sidebar">
                     <section class="phpdocumentor-sidebar__category">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
-                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/maks.html">MAKS</a></h4>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/maks.html" class="">MAKS</a>
+</h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="namespaces/maks-gdprtools.html">GDPRTools</a>
+                <a href="namespaces/maks-gdprtools.html" class="">GDPRTools</a>
                 
             </li>
             </ul>
@@ -65,14 +68,16 @@
                         </section>
                 <section class="phpdocumentor-sidebar__category">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
-                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="packages/GDPRTools.html">GDPRTools</a></h4>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/GDPRTools.html" class="">GDPRTools</a>
+</h4>
     <ul class="phpdocumentor-list">
                     <li>
-                <a href="packages/GDPRTools-Backend.html">Backend</a>
+                <a href="packages/GDPRTools-Backend.html" class="">Backend</a>
                 
             </li>
                     <li>
-                <a href="packages/GDPRTools-Package.html">Package</a>
+                <a href="packages/GDPRTools-Package.html" class="">Package</a>
                 
             </li>
             </ul>
@@ -253,42 +258,42 @@ require '/path/to/src/Backend/Sanitizer.php';
     &#039;source&#039; =&gt; [&#039;src&#039;, &#039;srcset&#039;],
     &#039;track&#039; =&gt; [&#039;src&#039;],
     &#039;object&#039; =&gt; [&#039;data&#039;],
-]                    </span>
+]                            </span>
 </dt>
 <dd>HTML elements that load external resources.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_AFTER">INJECTION_MODE_AFTER</a>
     <span>
-        &nbsp;= &#039;AFTER&#039;                    </span>
+        &nbsp;= &#039;AFTER&#039;                            </span>
 </dt>
 <dd>`AFTER` injection mode.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_APPEND">INJECTION_MODE_APPEND</a>
     <span>
-        &nbsp;= &#039;APPEND&#039;                    </span>
+        &nbsp;= &#039;APPEND&#039;                            </span>
 </dt>
 <dd>`APPEND` injection mode.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_BEFORE">INJECTION_MODE_BEFORE</a>
     <span>
-        &nbsp;= &#039;BEFORE&#039;                    </span>
+        &nbsp;= &#039;BEFORE&#039;                            </span>
 </dt>
 <dd>`BEFORE` injection mode.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_INJECTION_MODE_PREPEND">INJECTION_MODE_PREPEND</a>
     <span>
-        &nbsp;= &#039;PREPEND&#039;                    </span>
+        &nbsp;= &#039;PREPEND&#039;                            </span>
 </dt>
 <dd>`PREPEND` injection mode.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#constant_VERSION">VERSION</a>
     <span>
-        &nbsp;= &#039;v1.4.2&#039;                    </span>
+        &nbsp;= &#039;v1.5.0&#039;                            </span>
 </dt>
 <dd>Package version.</dd>
 
@@ -297,200 +302,200 @@ require '/path/to/src/Backend/Sanitizer.php';
     <span>
         &nbsp;= [
     // mode   =&gt; [search =&gt; replacement]
-    self::INJECTION_MODE_PREPEND =&gt; [&#039;/(&lt;\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
-    self::INJECTION_MODE_APPEND =&gt; [&#039;/(&lt;\/\s*{target}\s*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
-    self::INJECTION_MODE_BEFORE =&gt; [&#039;/(&lt;\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
-    self::INJECTION_MODE_AFTER =&gt; [&#039;/(&lt;\/\s*{target}\s*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
-]                    </span>
+    self::INJECTION_MODE_PREPEND =&gt; [&#039;/(&lt;\\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
+    self::INJECTION_MODE_APPEND =&gt; [&#039;/(&lt;\\/\\s*{target}\\s*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
+    self::INJECTION_MODE_BEFORE =&gt; [&#039;/(&lt;\\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
+    self::INJECTION_MODE_AFTER =&gt; [&#039;/(&lt;\\/\\s*{target}\\s*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
+]                            </span>
 </dt>
 <dd>Injection modes search and replacements.</dd>
 
-                <dt class="phpdocumentor-table-of-contents__entry -property -public">
+                    <dt class="phpdocumentor-table-of-contents__entry -property -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_attributes">$attributes</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>The overrides for the names of the attributes added after the sanitization.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_appends">$appends</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>The list of appends for each target.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_condition">$condition</a>
     <span>
-                &nbsp;: callable            </span>
+                        &nbsp;: callable            </span>
 </dt>
 <dd>The condition to check before sanitizing.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_data">$data</a>
     <span>
-                &nbsp;: string            </span>
+                        &nbsp;: string            </span>
 </dt>
 <dd>The data to sanitize.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_prepends">$prepends</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>The list of prepends for each target.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_result">$result</a>
     <span>
-                &nbsp;: string            </span>
+                        &nbsp;: string            </span>
 </dt>
 <dd>The result after the sanitization.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_uris">$uris</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>The temporary URIs/URLs to replace the original sources with.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#property_whitelist">$whitelist</a>
     <span>
-                &nbsp;: array&lt;string|int, mixed&gt;            </span>
+                        &nbsp;: array&lt;string|int, mixed&gt;            </span>
 </dt>
 <dd>The list of the whitelisted domains that should not be sanitized.</dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method___construct">__construct()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                                &nbsp;: mixed    </span>
 </dt>
 <dd>Sanitizer constructor.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_append">append()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Appends some data to the current data/result.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_get">get()</a>
     <span>
-                        &nbsp;: string    </span>
+                                &nbsp;: string    </span>
 </dt>
 <dd>Returns the current result and resets class internal state.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_inject">inject()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Injects data around or into an element (modes: `PREPEND`, `APPEND`, `BEFORE`, `AFTER`).</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_prepend">prepend()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Prepends some data in the current data/result.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitize">sanitize()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sanitizes the current data.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeApp">sanitizeApp()</a>
     <span>
-                        &nbsp;: void    </span>
+                                &nbsp;: void    </span>
 </dt>
 <dd>Sanitize the HTML resulting from including the passed path.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_sanitizeData">sanitizeData()</a>
     <span>
-                        &nbsp;: string    </span>
+                                &nbsp;: string    </span>
 </dt>
 <dd>Sanitize the given HTML code.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setAppends">setAppends()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sets the list of appends for each target.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setCondition">setCondition()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sets the condition to check that determines whether to sanitize the data or not.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setData">setData()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                                &nbsp;: mixed    </span>
 </dt>
 <dd>Sets the data to sanitize.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setPrepends">setPrepends()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sets the list of prepends for each target.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setURIs">setURIs()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sets the temporary URIs/URLs to set for each sanitized element.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_setWhitelist">setWhitelist()</a>
     <span>
-                        &nbsp;: static    </span>
+                                &nbsp;: static    </span>
 </dt>
 <dd>Sets the list of whitelisted domains that should not be sanitized.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_bootstrap">bootstrap()</a>
     <span>
-                        &nbsp;: void    </span>
+                                &nbsp;: void    </span>
 </dt>
 <dd>Use this method instead of `self::__construct()` to bootstrap the object.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getDomains">getDomains()</a>
     <span>
-                        &nbsp;: array&lt;int, string&gt;    </span>
+                                &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
 <dd>Returns a listed of domains that should not be sanitized.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getReplaceCallback">getReplaceCallback()</a>
     <span>
-                        &nbsp;: callable    </span>
+                                &nbsp;: callable    </span>
 </dt>
 <dd>Returns the callback to replace the elements to sanitize.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getSearchPattern">getSearchPattern()</a>
     <span>
-                        &nbsp;: string    </span>
+                                &nbsp;: string    </span>
 </dt>
 <dd>Returns the search pattern to find the elements to sanitize.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/MAKS-GDPRTools-Backend-Sanitizer.html#method_getURIs">getURIs()</a>
     <span>
-                        &nbsp;: array&lt;string, string&gt;    </span>
+                                &nbsp;: array&lt;string, string&gt;    </span>
 </dt>
 <dd>Returns the Data-URIs to set to the sanitized elements.</dd>
 
@@ -521,7 +526,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">array&lt;string, array&lt;string|int, mixed&gt;&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string, array&lt;string|int, mixed&gt;&gt;</span>
     <span class="phpdocumentor-signature__name">ELEMENTS</span>
     = <span class="phpdocumentor-signature__default-value">[
     // element =&gt; attributes
@@ -595,7 +600,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODE_AFTER</span>
     = <span class="phpdocumentor-signature__default-value">&#039;AFTER&#039;</span>
 </code>
@@ -623,7 +628,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODE_APPEND</span>
     = <span class="phpdocumentor-signature__default-value">&#039;APPEND&#039;</span>
 </code>
@@ -651,7 +656,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODE_BEFORE</span>
     = <span class="phpdocumentor-signature__default-value">&#039;BEFORE&#039;</span>
 </code>
@@ -679,7 +684,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODE_PREPEND</span>
     = <span class="phpdocumentor-signature__default-value">&#039;PREPEND&#039;</span>
 </code>
@@ -707,9 +712,9 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">public</span>
-    <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string</span>
     <span class="phpdocumentor-signature__name">VERSION</span>
-    = <span class="phpdocumentor-signature__default-value">&#039;v1.4.2&#039;</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;v1.5.0&#039;</span>
 </code>
 
 
@@ -749,14 +754,14 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-signature phpdocumentor-code ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-    <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">INJECTION_MODES</span>
     = <span class="phpdocumentor-signature__default-value">[
     // mode   =&gt; [search =&gt; replacement]
-    self::INJECTION_MODE_PREPEND =&gt; [&#039;/(&lt;\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
-    self::INJECTION_MODE_APPEND =&gt; [&#039;/(&lt;\/\s*{target}\s*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
-    self::INJECTION_MODE_BEFORE =&gt; [&#039;/(&lt;\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
-    self::INJECTION_MODE_AFTER =&gt; [&#039;/(&lt;\/\s*{target}\s*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
+    self::INJECTION_MODE_PREPEND =&gt; [&#039;/(&lt;\\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
+    self::INJECTION_MODE_APPEND =&gt; [&#039;/(&lt;\\/\\s*{target}\\s*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
+    self::INJECTION_MODE_BEFORE =&gt; [&#039;/(&lt;\\s*{target}[^&gt;]*&gt;)/i&#039; =&gt; &#039;{data}$1&#039;],
+    self::INJECTION_MODE_AFTER =&gt; [&#039;/(&lt;\\/\\s*{target}\\s*&gt;)/i&#039; =&gt; &#039;$1{data}&#039;],
 ]</span>
 </code>
 
@@ -1115,7 +1120,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
     
@@ -1148,7 +1153,7 @@ require '/path/to/src/Backend/Sanitizer.php';
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">append</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;body&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">append</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;body&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
         <section class="phpdocumentor-description"><p>This method is useful to add some <code class="prettyprint">&lt;script&gt;</code> or <code class="prettyprint">&lt;link&gt;</code> to the <code class="prettyprint">&lt;head&gt;</code> and/or <code class="prettyprint">&lt;body&gt;</code> elements.</p>
 <p>NOTE: This method will append the data whether the data has changed (sanitized) or not.</p>
@@ -1221,7 +1226,7 @@ The data will be appended to the first element only.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">get</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">get</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     
     
@@ -1254,7 +1259,7 @@ The data will be appended to the first element only.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">inject</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mode</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">self::INJECTION_MODE_APPEND</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">inject</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mode</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">self::INJECTION_MODE_APPEND</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1334,7 +1339,7 @@ One of <code class="prettyprint">PREPEND</code>, <code class="prettyprint">APPEN
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">prepend</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;head&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">prepend</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;head&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
         <section class="phpdocumentor-description"><p>This method is useful to add some <code class="prettyprint">&lt;script&gt;</code> or <code class="prettyprint">&lt;link&gt;</code> to the <code class="prettyprint">&lt;head&gt;</code> and/or <code class="prettyprint">&lt;body&gt;</code> elements.</p>
 <p>NOTE: This method will prepend the data whether the data has changed (sanitized) or not.</p>
@@ -1407,7 +1412,7 @@ The data will be prepended in the first element only.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">sanitize</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">sanitize</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
     
@@ -1440,7 +1445,7 @@ The data will be prepended in the first element only.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">sanitizeApp</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$injections</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">sanitizeApp</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$path</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$injections</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
         <section class="phpdocumentor-description"><p>NOTE: This method should be the last step in the application
 as it will flush all opened buffers to the client.</p>
@@ -1567,7 +1572,7 @@ An associative array where keys are the modes values are the sames as <code clas
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">sanitizeData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$injections</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">sanitizeData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$injections</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1676,7 +1681,7 @@ An associative array where keys are the modes values are the sames as <code clas
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setAppends</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">setAppends</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$appends</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1736,7 +1741,7 @@ An associative array where keys are the target to append to and values are a str
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setCondition</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">setCondition</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$condition</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1784,7 +1789,7 @@ The callback should check for a Cookie or something in the data (HTML) to determ
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">setData</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1828,7 +1833,7 @@ The callback should check for a Cookie or something in the data (HTML) to determ
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setPrepends</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">setPrepends</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, array&lt;string, string[]|string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prepends</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1888,7 +1893,7 @@ An associative array where keys are the target to prepend in and values are a st
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setURIs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">setURIs</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$uris</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1935,7 +1940,7 @@ and values are the URIs (base64 encoded data) or normal URLs.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">setWhitelist</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
+                    <span class="phpdocumentor-signature__name">setWhitelist</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$whitelist</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">static</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1981,7 +1986,7 @@ Sub-domains must be specified separately.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">bootstrap</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">bootstrap</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     
     
@@ -2028,7 +2033,7 @@ Sub-domains must be specified separately.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">getDomains</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getDomains</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, string&gt;</span></code>
 
     
     
@@ -2061,7 +2066,7 @@ Sub-domains must be specified separately.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">getReplaceCallback</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable</span></code>
+                    <span class="phpdocumentor-signature__name">getReplaceCallback</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable</span></code>
 
     
     
@@ -2094,7 +2099,7 @@ Sub-domains must be specified separately.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">getSearchPattern</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getSearchPattern</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     
     
@@ -2127,7 +2132,7 @@ Sub-domains must be specified separately.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">getURIs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">getURIs</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string, string&gt;</span></code>
 
     
     
